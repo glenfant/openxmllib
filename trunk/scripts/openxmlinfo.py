@@ -1,5 +1,6 @@
 #! python
 # -*- coding: utf-8 -*-
+"""Command line tool"""
 
 import os
 import optparse
