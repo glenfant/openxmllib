@@ -2,7 +2,14 @@
 History
 #######
 
+1.0.1 (unreleased)
+#####
+
+ - Egg-ification.
+   [kev@coolcavemen.com]
+
 1.0.0
 #####
 
-First public version.
+ - First public version.
+   [gilles.lenfant]
