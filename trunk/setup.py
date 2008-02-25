@@ -12,7 +12,7 @@ def read(*rnames):
 
 
 name             = 'openxmllib'
-version          = '1.0.1'
+version          = '1.0.2'
 long_description = "%s\n%s\n%s" % (read('README'), read('TODO'), read('HISTORY'))
 
 
