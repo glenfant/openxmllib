@@ -6,7 +6,7 @@ http://www.ecma-international.org/publications/standards/Ecma-376.htm
 """
 # $Id: __init__.py 6864 2007-12-06 14:09:09Z glenfant $
 
-version_info = (1, 0, 0)
+version_info = (1, 0, 1)
 version = '.'.join([str(x) for x in version_info])
 
 import os
