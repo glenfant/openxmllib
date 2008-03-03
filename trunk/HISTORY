@@ -2,8 +2,11 @@
 History
 #######
 
-1.0.2 (unreleased)
+1.0.2
 #####
+
+ - Fix bad "egging".
+   [kev_AT_coolcavemen_DOT_com]
 
 1.0.1
 #####
