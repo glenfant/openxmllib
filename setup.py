@@ -1,9 +1,6 @@
 # -*- coding: utf-8 -*-
-"""
-$Id: setup.py 6864 2007-12-06 14:09:09Z glenfant $
-"""
 
-from setuptools import setup, find_packages
+from setuptools import setup
 import os
 
 
@@ -31,8 +28,7 @@ setup( name                 = name
                               , "Topic :: Utilities"
                               , "Programming Language :: Python"
                               ]
-     , packages             = find_packages(name, exclude='tests')
-     , package_dir          = {'': name}
+     , packages             = [name, ]
      , include_package_data = True
      , install_requires     = ['lxml>=1.3.0,<2.0.0dev', ]
      , zip_safe             = False
