@@ -1,13 +1,16 @@
-= Introduc tion =
+= Introduction =
 
 Some questions you could ask or others asked for
-
 
 = About lxml =
 
 == Why are we stuck with lxml 1.3.x =
 
 Yes, I know there's a new stable version of lxml (2.0.1 at the date of wrinting). But lxml 1.3.x is enough for what we need now and some Mac users - like me - are still stuck with lxml 1.3.x today.
+
+http://thread.gmane.org/gmane.comp.python.lxml.devel/3290/focus=3466
+
+http://thread.gmane.org/gmane.comp.python.lxml.devel/3273/focus=3292
 
 Anyway, after reading the code, and the doc that ships with lxml 2, openxmllib _should_ work with lxml 2.0.x.
 
