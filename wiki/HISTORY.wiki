@@ -1,13 +1,13 @@
 #summary Detailed changes of various versions
 
-= Introduction =
+== openxmllib 1.0.2 ==
 
-Add your content here.
+Fixed an easy_install bug on lxml dependancy.
 
+== openxmllib 1.0.1 ==
 
-= Details =
+Eggification of openxmllib, now available from the cheeseshop using `easy_install openxmllib`.
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+== openxmllib 1.0.0 ==
+
+First public stable release
