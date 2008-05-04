@@ -1,8 +1,12 @@
 #summary What you didn't find elsewhere
 
-= Introduction =
+== Introduction ==
 
 Some questions you could ask or others asked for.
+
+== About Python version ==
+
+*openxmllib* has been developed and tested with with Python 2.4 only, but *should* work as is with Python 2.5 and will not work with Python 2.3 (we use decorators).
 
 == Testing openxmllib ==
 
