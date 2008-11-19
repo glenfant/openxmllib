@@ -57,10 +57,10 @@ class IndexableTextExtractor(object):
     def addTextElement(self, element_name):
         """Adding an element that may contanin text to index
         @param element_name: an element that contains text to extract.
-             the name may be prefixed with a key from namespaces.ns_map
+        the name may be prefixed with a key from namespaces.ns_map
         """
 
-        self.text_elts_xpaths.append(etree.XPath('//' + element_name, ns_map))
+        self.text_elts_xpaths.append(etree.XPath('//' + element_name, namespaces=ns_map))
         return
 
 
