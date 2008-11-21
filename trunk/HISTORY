@@ -2,8 +2,14 @@
 History
 #######
 
-1.0.3 (unreleased)
+1.0.3
 #####
+
+ - Conforming XPath constructor signature.
+   [gilles.lenfant_AT_gmail_DOT_com]
+
+ - New test files built with Mac Office 2008
+   [gilles.lenfant_AT_gmail_DOT_com]
 
 1.0.2
 #####
@@ -21,4 +27,4 @@ History
 #####
 
  - First public version.
-   [gilles.lenfant]
+   [gilles.lenfant_AT_gmail_DOT_com]
