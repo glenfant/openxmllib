@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 
-from setuptools import setup
+from setuptools import setup, find_packages
 import os
-
+import openxmllib
 
 def read(*rnames):
   return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
 
 name             = 'openxmllib'
-version          = '1.0.3'
+version          = openxmllib.version
 long_description = "%s\n%s\n%s" % (read('README'), read('TODO'), read('HISTORY'))
 
 setup(name=name,
@@ -27,7 +27,7 @@ setup(name=name,
                    "Topic :: Utilities",
                    "Programming Language :: Python"
                    ],
-      packages=[name],
+      packages=find_packages(),
       include_package_data=True,
       install_requires=['lxml>=1.3.0,<2.0.0dev'],
       zip_safe=False,
