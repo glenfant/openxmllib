@@ -6,7 +6,6 @@ History
 #####
 
  - Automate package and version definition
- - Include test suite in the package
  - Bump version to 1.0.4
    2008-12-11 [kev_AT_coolcavemen_DOT_com]
    
