@@ -2,13 +2,15 @@
 History
 #######
 
-1.0.4.dev
+1.0.4
 #####
 
+ - Compliance with python 2.5 and lxml 2.2
+   Still works with python 2.4 and lxml 1.3.6
+   [gilles.lenfant_AT_gmail_DOT_com]
  - Automate package and version definition
  - Bump version to 1.0.4
    2008-12-11 [kev_AT_coolcavemen_DOT_com]
-   
 
 1.0.3
 #####

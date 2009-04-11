@@ -1,6 +1,6 @@
-##########
+==========
 openxmllib
-##########
+==========
 
 openxmllib is a set of tools that deals with the new ECMA 376 office
 file formats known as OpenXML.
@@ -11,21 +11,21 @@ OpenXML format is actually used by Microsoft Office 2007. Apple
 iWork'08 and OpenOffice 2.2 have filters to use this format too.
 
 Features
-########
+==========
 
 Tested features
-===============
+---------------
 
 * Extract words from a document for indexing purpose.
 * Get metadata from a document
 
 Planned features
-================
+----------------
 
 * Transform a document to HTML
 
 Public API
-##########
+==========
 
   >>> import openxmllib
   >>> doc = openxmllib.openXmlDocument('office.docx')
@@ -45,8 +45,13 @@ Public API
   >>> doc.indexableText(include_properties=True)
   u'all the words of that document body and all properties values'
 
+Note that if you're not running a Python application, you may get the indexable
+text from a document with the `openxmlinfo.py` console utility. Just type::
+
+  $ openxmlinfo.py --help
+
 Copying and License
-###################
+===================
 
 Copyright (c) 2008 Gilles Lenfant
 
@@ -60,50 +65,46 @@ AGAINST INFRINGEMENT, AND FITNESS FOR A PARTICULAR PURPOSE
 More details in the ``COPYING`` file included in this package.
 
 Status
-######
+======
 
-This software is in alpha quality, has been tested only on Mac OSX
-with Python 2.4 and lxml 1.3.6.
+This software is in production quality, has been tested on Mac OSX, Linux and
+Windows with Python 2.4, Python 2.5, lxml 1.3.6 and lxml 2.2.
 
-It should work on other platforms, with Python 2.5, perhaps with
+It should work on other platforms, with Python 2.6, perhaps with
 other versions of lxml.
 
-Requirements
-############
-
-* lxml 1.3.6: get lxml with easy_install. e.g::
-
-  $ easy_install lxml==1.3.6
-
-Warning: openxmllib is untested with the new lxml 2 (alpha state when
-writing this line). It may or may not work with this lxml 2, but
-please don't report bugs found in such situation until lxml 2
-officially required here.
-
 Installation
-############
+============
 
-$ python setup.py install
+$ [sudo] easy_install openxmllib
+
+Note that this will install the excellent `lxml` egg too if not already done.
 
 From now you can "import openxmllib" in your Python apps and use the
 "openxmlinfo.py" command line utility.
 
 Gotchas
-#######
+=======
 
 Be aware that most text data coming from the various openxmllib
 services might be us-ascii or Unicode. This is a side effect of lxml
 (bug or feature ?). It's up to your application to convert these texts
 to the appropriate charset.
 
-TODO: File this to lxml tracker or ML
-
 We do not actually handle exceptions due to malformed XML or various
 unexpected structures. You should handle the various (potential)
 problems in a try (...) except (...) block in your application.
 
-Testing
-#######
+Developing and testing
+======================
+
+You should grab openxmllib with your subversion client from its `repository at
+Google code <http://code.google.com/p/openxmllib/source/checkout>`_.
+
+Then::
+
+  $ cd /where/you/installed/openxmllib
+  $ python setup.py develop
 
 Note that testing does not require the installation::
 
@@ -111,6 +112,6 @@ Note that testing does not require the installation::
   $ python runalltests.py
 
 Credits
-#######
+=======
 
 Gilles Lenfant <gilles dot lenfant at gmail dot com>
