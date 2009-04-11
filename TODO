@@ -1,23 +1,23 @@
-############################
+============================
 Future features and bugfixes
-############################
+============================
 
 Features
-########
+========
 
 Support for standard mimetypes module
-=====================================
+-------------------------------------
 
 Add our mime types to standard Python module.
 
 Support for URLs
-================
+----------------
 
 >>> from openxmllib import openXmlDocument
 >>> doc = openXmlDocument('http://www.mydomain.com/mydoc.docx')
 
 Human readable plain text conversion
-====================================
+------------------------------------
 
 >>> from openxmllib import openXmlDocument
 >>> doc = openXmlDocument(...)
@@ -26,7 +26,7 @@ Human readable plain text conversion
 (this may be not possible for spreadsheets)
 
 HTML conversions
-================
+----------------
 
 >>> from openxmllib import openXmlDocument
 >>> doc = openXmlDocument(...)
@@ -35,29 +35,11 @@ HTML conversions
 This requires to find open source XSLT stylesheets.
 
 Document generation
-===================
+-------------------
 
 FIXME: more to say here
 
-Packaging
-#########
-
-Installation
-============
-
-Turn this into an egg ("easy_install openxmllib").
-
-Documentation
-=============
-
-Add epydoc generated API documentation in doc/api.
-
-Utility
-=======
-
-Install "openxmlinfo.py" on Windows.
-
 Bugfixes
-########
+========
 
 ...Waiting for feedback ;o)

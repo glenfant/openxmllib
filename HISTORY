@@ -1,9 +1,9 @@
-#######
+=======
 History
-#######
+=======
 
 1.0.4
-#####
+=====
 
  - Compliance with python 2.5 and lxml 2.2
    Still works with python 2.4 and lxml 1.3.6
@@ -13,7 +13,7 @@ History
    2008-12-11 [kev_AT_coolcavemen_DOT_com]
 
 1.0.3
-#####
+=====
 
  - Conforming XPath constructor signature.
    [gilles.lenfant_AT_gmail_DOT_com]
@@ -22,19 +22,19 @@ History
    [gilles.lenfant_AT_gmail_DOT_com]
 
 1.0.2
-#####
+=====
 
  - Fix bad "egging".
    [kev_AT_coolcavemen_DOT_com]
 
 1.0.1
-#####
+=====
 
  - Egg-ification.
    [kev_AT_coolcavemen_DOT_com]
 
 1.0.0
-#####
+=====
 
  - First public version.
    [gilles.lenfant_AT_gmail_DOT_com]
