@@ -6,11 +6,11 @@ Some questions you could ask or others asked for.
 
 == About Python version ==
 
-*openxmllib* has been developed and tested with with Python 2.4 only, but *should* work as is with Python 2.5 and will not work with Python 2.3 (we use decorators).
+*openxmllib* has been developed and tested with with Python 2.4 and 2.5, but *should* work as is with Python 2.6 and will not work with Python 2.3 (we use decorators).
 
 == Testing openxmllib ==
 
-*openxmllib* ships with its own unit tests. These work perfectly on my Macintosh (Tiger) engine and Python 2.4. Please run these tests with your own platform (Windows, Linux, ...) and submit a [http://code.google.com/p/openxmllib/issues/entry new issue] on any encountered problem.
+*openxmllib* ships with its own unit tests. These work perfectly on Mac OS, Linux or Windows. Please run these tests with your own platform and submit a [http://code.google.com/p/openxmllib/issues/entry new issue] on any encountered problem.
 
 == Contributing ==
 
@@ -21,17 +21,3 @@ Many thanks for your help.
 If you just want to submit a patch, just fill in a [http://code.google.com/p/openxmllib/issues/entry new issue] that explains your fix and provide the patch using the `svn diff` command.
 
 If you want to contribute actively to openxmllib and have subversion commit access, please submit a [http://code.google.com/p/openxmllib/issues/entry new issue] explaining your vision for future features of openxmllib.
-
-= About lxml =
-
-== Why are we stuck with lxml 1.3.x =
-
-*Yes, I know there's a new stable version of lxml (2.0.1 at the date of wrinting). But lxml 1.3.x is enough for what we need now and some Mac users - like me - are still stuck with lxml 1.3.x today?*
-
-http://thread.gmane.org/gmane.comp.python.lxml.devel/3290/focus=3466
-
-http://thread.gmane.org/gmane.comp.python.lxml.devel/3273/focus=3292
-
-Anyway, after reading the code, and the doc that ships with lxml 2, openxmllib _should_ work with lxml 2.0.x.
-
-I just need some volunteers who can run the unit tests that ship with openxmllib against lxml 2.0.x. Anyone?
