@@ -8,8 +8,8 @@ def read(*rnames):
   return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
 
-name             = 'openxmllib'
-version          = openxmllib.version
+name = 'openxmllib'
+version = openxmllib.version
 long_description = "%s\n%s\n%s" % (read('README'), read('TODO'), read('HISTORY'))
 
 setup(name=name,
@@ -29,7 +29,7 @@ setup(name=name,
                    ],
       packages=find_packages(),
       include_package_data=True,
-      install_requires=['lxml>=1.3.0,<2.0.0dev'],
+      install_requires=['lxml>=1.3.0'],
       zip_safe=False,
       scripts=['scripts/openxmlinfo.py']
      )

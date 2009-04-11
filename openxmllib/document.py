@@ -152,7 +152,7 @@ class Document(object):
             # We may have no custom properties at all.
             return rval
         XPath = lxml.etree.XPath # Class shortcut
-        properties_xpath = XPath('custom-properties:property', ns_map)
+        properties_xpath = XPath('custom-properties:property', namespaces=ns_map)
         propname_xpath = XPath('@name')
         propvalue_xpath = XPath('*/text()')
         for tree in self.content_types.getTreesFor(self, contenttypes.CT_CUSTOM_PROPS):

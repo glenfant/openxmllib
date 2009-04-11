@@ -23,7 +23,7 @@ class UtilsTest(unittest.TestCase):
         toc_path = os.path.join(doc._cache_dir, '[Content_Types].xml')
         fh = openxmllib.utils.xmlFile(toc_path, 'rb')
         xml = etree.parse(fh)
-        self.failUnless(xml.getroot(), "Expected an XML element")
+        self.failUnless(isinstance(xml.getroot(), etree._Element), "Expected an XML element")
         return
 
     def test_tounicode(self):
