@@ -1,3 +1,5 @@
+#summary Changes in various public versions
+
 1.0.4
 =====
 
