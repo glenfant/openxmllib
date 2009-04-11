@@ -1,8 +1,0 @@
-include README
-include HISTORY
-include COPYING
-include TODO
-include setup.py
-recursive-include openxmllib *.py
-recursive-include scripts *.py
-recursive-include tests *.py *.docx *.xlsx *.pptx
