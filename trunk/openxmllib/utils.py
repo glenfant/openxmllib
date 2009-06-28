@@ -66,7 +66,7 @@ class IndexableTextExtractor(object):
 
     def indexableText(self, tree):
         """Provides the indexable - search engine oriented - raw text
-        @param tree: an ElementTreee
+        @param tree: an ElementTree
         @return: set(["foo", "bar", ...])"
         """
 
