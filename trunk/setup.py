@@ -24,7 +24,7 @@ setup(name=name,
       classifiers=["License :: OSI Approved :: GNU General Public License (GPL)",
                    "Topic :: Office/Business :: Office Suites",
                    "Topic :: Software Development :: Libraries :: Python Modules",
-                   "Topic :: Utilities",
+                   "Topic :: Text Processing :: Indexing",
                    "Programming Language :: Python"
                    ],
       packages=find_packages(),
