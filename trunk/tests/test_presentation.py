@@ -24,7 +24,7 @@ class PresentationTest(unittest.TestCase):
 
         itext = self.doc.indexableText()
         some_words = (u'Chapter', u'presentation', u'proud', u'three', u'two',
-             u'four', u'item', u'one', u'My')
+             u'four', u'item', u'one', u'My', u'midword')
         some_words += (u'false', u'Microsoft Office PowerPoint')
         for word in some_words:
             self.failUnless(word in itext, "%s was expected" % word)

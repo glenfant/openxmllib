@@ -23,7 +23,7 @@ class WordProcessingTest(unittest.TestCase):
         """Indexable text with properties"""
 
         itext = self.doc.indexableText()
-        some_words = (u'A', u'full', u'chàractèrs', u'non', u'custom_value_2', u'title')
+        some_words = (u'A', u'full', u'chàractèrs', u'non', u'custom_value_2', u'title', u'metadata')
         for word in some_words:
             self.failUnless(word in itext, "%s was expected" % word)
         return
