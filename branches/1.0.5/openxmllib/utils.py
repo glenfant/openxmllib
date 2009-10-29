@@ -32,7 +32,7 @@ def toUnicode(objekt):
 
     if not isinstance(objekt, str):
         return objekt
-    return unicode(objekt, 'ascii')
+    return unicode(objekt, 'utf-8')
 
 
 
@@ -53,6 +53,8 @@ class IndexableTextExtractor(object):
             self.addTextElement(te)
         return
 
+    def _generate_words(self, text):
+        return re.findall(r'([a-zA-ZÀ-ÿ]+)', text.encode('utf-8'))
 
     def addTextElement(self, element_name):
         """Adding an element that may contanin text to index
@@ -74,9 +76,9 @@ class IndexableTextExtractor(object):
         root = tree.getroot()
         for txp in self.text_elts_xpaths:
             elts = txp(root)
-            texts = [self.text_extract_xpath(elt) for elt in elts]
+            texts = ''.join([self.text_extract_xpath(elt)[0] for elt in elts])
             # Texts in element may be empty
-            texts = [toUnicode(x)[0] for x in texts
+            texts = [toUnicode(x) for x in self._generate_words(texts)
                      if len(x) > 0]
             for text in texts:
                 words = self.wordssearch_rx.findall(text)
