@@ -54,6 +54,9 @@ class IndexableTextExtractor(object):
         return
 
     def _generate_words(self, text):
+        """returns a list of "words"
+           (a word here is an amount of letters, including accented letters)
+        """
         return re.findall(r'([a-zA-ZÀ-ÿ]+)', text.encode('utf-8'))
 
     def addTextElement(self, element_name):
