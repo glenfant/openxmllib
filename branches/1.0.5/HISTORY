@@ -6,6 +6,8 @@ History
 =====
 
  - Support for URLs
+ - Fixed implementation to that old tests pass (the "midword"/"metadata" case,
+                                                bold + normal style was not ok)
 
 
 1.0.4
