@@ -2,6 +2,23 @@
 History
 =======
 
+1.0.5
+=====
+
+ - Optims on large documents.
+   [gilles.lenfant_AT_gmail_DOT_com]
+ - CamelCased functions and method names in consistency with applied rules.
+   [gilles.lenfant_AT_gmail_DOT_com]
+ - Version reset to 1.0.5
+   [gilles.lenfant_AT_gmail_DOT_com]
+ - Support for urllib compatible URLs
+   [gilles.lenfant_AT_gmail_DOT_com]
+ - New: Support for URLs
+   [hltbra_AT_gmail_DOT_com]
+ - Fixed implementation to that old tests pass (the "midword"/"metadata" case,
+   bold + normal style was not ok)
+   [hltbra_AT_gmail_DOT_com]
+
 1.0.4
 =====
 
