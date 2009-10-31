@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
+# $Id$
 """
 The Open XML document library
 Open XML document is defined by the ECMA-376 standard
 http://www.ecma-international.org/publications/standards/Ecma-376.htm
 """
-# $Id: __init__.py 6864 2007-12-06 14:09:09Z glenfant $
 
 version_info = (1, 0, 4)
 version = '.'.join([str(x) for x in version_info])

@@ -2,7 +2,7 @@
 """
 The document modules handles an Open XML document
 """
-# $Id: document.py 6800 2007-12-04 11:17:01Z glenfant $
+# $Id$
 
 import os
 import cStringIO
@@ -11,6 +11,7 @@ import zipfile
 import shutil
 import types
 import fnmatch
+import urllib
 
 import lxml
 
@@ -18,6 +19,51 @@ import contenttypes
 from namespaces import ns_map
 from utils import xmlFile
 from utils import toUnicode
+
+def _fileExists(file_path):
+    """We cannot use os.path.exists on potential binary data
+    """
+    filename = os.path.basename(file_path)
+    try:
+        return filename in os.listdir(os.path.dirname(file_path))
+    except TypeError:
+        return False
+
+
+class _DocumentFileFactory(object):
+    def _getInfoFromURL(self, url):
+        # FIXME: we should delete this file when useless after processing
+        abs_path = urllib.urlretrieve(url)[0]
+        return (open(abs_path, 'rb'), os.path.basename(abs_path))
+
+    def _getInforFromPath(self, path):
+        return (open(path, 'rb'),
+               os.path.basename(path))
+
+    def _getInfoFromData(self, data):
+        return (cStringIO.StringIO(data), None)
+
+    def _getInfoFromFile(self, file):
+        return file, getattr(file, 'name', None)
+
+    def getFile(self, path_or_file_or_data_or_url):
+        if type(path_or_file_or_data_or_url) in types.StringTypes:
+            # Path or data or url
+            is_url = False
+            for scheme in ('http://', 'https://', 'ftp://', 'ftps://'):
+                if path_or_file_or_data_or_url.startswith(scheme):
+                    is_url = True
+                    break
+            if is_url:
+                return self._getInfoFromURL(path_or_file_or_data_or_url)
+            elif _fileExists(path_or_file_or_data_or_url):
+                return self._getInforFromPath(path_or_file_or_data_or_url)
+            else:
+                return self._getInfoFromData(path_or_file_or_data_or_url)
+        elif hasattr(path_or_file_or_data_or_url, 'read'):
+            return self._getInfoFromFile(path_or_file_or_data_or_url)
+        else:
+            raise ValueError('Cannot process such data')
 
 
 class Document(object):
@@ -27,10 +73,13 @@ class Document(object):
     _extpattern_to_mime = {} # ({'*.ext': 'aplication/xxx'}, ...}
     _text_extractors = []
 
-    def __init__(self, path_or_file_or_data, mime_type=None):
+    def __init__(self, path_or_file_or_data_or_url, mime_type=None):
         """
-        @param path_or_file_or_data: ... to the document
-        @type path_or_file_or_data: a file path, a file object or a binary buffer
+        @param path_or_file_or_data_or_url: ... to the document
+        @type path_or_file_or_data_or_url: a file path,
+                                           a file object or
+                                           a binary buffer or
+                                           a url hosted file
         A file must be opened in 'rb' mode
         """
 
@@ -43,27 +92,7 @@ class Document(object):
         op_dirname = os.path.dirname
 
         # Preliminary settings depending on input
-        if type(path_or_file_or_data) in types.StringTypes:
-            # Path or data
-            try:
-                if os.path.isfile(path_or_file_or_data):
-                    in_file = file(path_or_file_or_data, 'rb')
-                    self.filename = os.path.basename(path_or_file_or_data)
-                else:
-                    raise TypeError
-            except:
-                in_file = cStringIO.StringIO(path_or_file_or_data)
-                self.filename = None
-        elif hasattr(path_or_file_or_data, 'read'):
-            # File like object (supposed to)
-            in_file = path_or_file_or_data
-            try:
-                self.filename = path_or_file_or_data.name
-            except AttributeError, e:
-                # A StringIO  or other unnamed stream
-                self.filename = None
-        else:
-            raise TypeError, "Cannot use % documents" % str(path_or_file_or_data.__class__)
+        in_file, self.filename = _DocumentFileFactory().getFile(path_or_file_or_data_or_url)
 
         # Inflating the file
         self._cache_dir = tempfile.mkdtemp()
@@ -84,7 +113,6 @@ class Document(object):
         # Getting the content types decl
         ct_file = op_join(self._cache_dir, '[Content_Types].xml')
         self.content_types = contenttypes.ContentTypes(xmlFile(ct_file, 'rb'))
-        return
 
 
     @property
@@ -99,7 +127,6 @@ class Document(object):
         for pattern, mime_type in self._extpattern_to_mime.items():
             if fnmatch.fnmatch(self.filename, pattern):
                 return mime_type
-        return None
 
 
     @property
@@ -195,7 +222,6 @@ class Document(object):
         """Cleanup at Document object detetion"""
 
         self._cleanup()
-        return
 
 
     def _cleanup(self):
@@ -204,7 +230,6 @@ class Document(object):
         """
 
         shutil.rmtree(self._cache_dir, ignore_errors=True)
-        return
 
 
     @classmethod

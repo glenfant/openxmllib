@@ -5,6 +5,25 @@ Future features and bugfixes
 Features
 ========
 
+API change
+----------
+
+Change API of document constructor such the document source type should be
+explicite. Examples :
+
+>>> doc = openXmlDocument(url='http://some.site.tld/gossips.docx')
+>>> data = open('gossips.docx', 'rb').read()
+>>> doc = openXmlDocument(data=data, mime_type='application/xxx')
+>>> doc = openXmlDocument(filepath='/somewhere/gossips.docx')
+>>> handle = open('/somewhere/gossips.docx')
+>>> doc = openXmlDocument(stream=handle)
+
+Remove downloaded temporary file
+--------------------------------
+
+When data is coming from HTTP (...) URL, it's stored in a temporary file that's
+not deleted after processing.
+
 Support for standard mimetypes module
 -------------------------------------
 
