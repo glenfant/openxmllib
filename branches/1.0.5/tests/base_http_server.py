@@ -1,6 +1,11 @@
+# -*- coding: utf-8 -*-
+"""HTTP minimalistic server for URL access"""
+# $Id$
+
 import BaseHTTPServer
 import mimetypes
 import os
+
 from fixures import HOST_NAME, PORT, TEST_FILES_IN, ALL_IN_FILES
 
 class SimpleHandler(BaseHTTPServer.BaseHTTPRequestHandler):

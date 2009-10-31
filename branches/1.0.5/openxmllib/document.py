@@ -2,6 +2,7 @@
 """
 The document modules handles an Open XML document
 """
+# $Id$
 
 import os
 import cStringIO
@@ -19,39 +20,50 @@ from namespaces import ns_map
 from utils import xmlFile
 from utils import toUnicode
 
-def _file_exists(file_path):
+def _fileExists(file_path):
+    """We cannot use os.path.exists on potential binary data
+    """
     filename = os.path.basename(file_path)
     try:
         return filename in os.listdir(os.path.dirname(file_path))
     except TypeError:
         return False
 
-class _DocumentFileFactory(object):
-    def _get_info_from_url(self, url):
-        abs_path = urllib.urlretrieve(url)[0]
-        return (file(abs_path, 'rb'), os.path.basename(abs_path))
 
-    def _get_info_from_path(self, path):
-        return (file(path, 'rb'),
+class _DocumentFileFactory(object):
+    def _getInfoFromURL(self, url):
+        # FIXME: we should delete this file when useless after processing
+        abs_path = urllib.urlretrieve(url)[0]
+        return (open(abs_path, 'rb'), os.path.basename(abs_path))
+
+    def _getInforFromPath(self, path):
+        return (open(path, 'rb'),
                os.path.basename(path))
 
-    def _get_info_from_data(self, data):
+    def _getInfoFromData(self, data):
         return (cStringIO.StringIO(data), None)
 
-    def _get_info_from_file(self, file):
+    def _getInfoFromFile(self, file):
         return file, getattr(file, 'name', None)
 
-    def get_file(self, path_or_file_or_data_or_url):
+    def getFile(self, path_or_file_or_data_or_url):
         if type(path_or_file_or_data_or_url) in types.StringTypes:
             # Path or data or url
-            if path_or_file_or_data_or_url.startswith('http://'):
-                return self._get_info_from_url(path_or_file_or_data_or_url)
-            elif _file_exists(path_or_file_or_data_or_url):
-                return self._get_info_from_path(path_or_file_or_data_or_url)
+            is_url = False
+            for scheme in ('http://', 'https://', 'ftp://', 'ftps://'):
+                if path_or_file_or_data_or_url.startswith(scheme):
+                    is_url = True
+                    break
+            if is_url:
+                return self._getInfoFromURL(path_or_file_or_data_or_url)
+            elif _fileExists(path_or_file_or_data_or_url):
+                return self._getInforFromPath(path_or_file_or_data_or_url)
             else:
-                return self._get_info_from_data(path_or_file_or_data_or_url)
+                return self._getInfoFromData(path_or_file_or_data_or_url)
         elif hasattr(path_or_file_or_data_or_url, 'read'):
-            return self._get_info_from_file(path_or_file_or_data_or_url)
+            return self._getInfoFromFile(path_or_file_or_data_or_url)
+        else:
+            raise ValueError('Cannot process such data')
 
 
 class Document(object):
@@ -80,7 +92,7 @@ class Document(object):
         op_dirname = os.path.dirname
 
         # Preliminary settings depending on input
-        in_file, self.filename = _DocumentFileFactory().get_file(path_or_file_or_data_or_url)
+        in_file, self.filename = _DocumentFileFactory().getFile(path_or_file_or_data_or_url)
 
         # Inflating the file
         self._cache_dir = tempfile.mkdtemp()

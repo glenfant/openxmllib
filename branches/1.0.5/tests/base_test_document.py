@@ -2,6 +2,7 @@
 """
 Testing base_test_document
 """
+# $Id$
 
 import unittest
 import os
