@@ -6,7 +6,7 @@ Open XML document is defined by the ECMA-376 standard
 http://www.ecma-international.org/publications/standards/Ecma-376.htm
 """
 
-version_info = (1, 0, 4)
+version_info = (1, 0, 5)
 version = '.'.join([str(x) for x in version_info])
 
 import os
