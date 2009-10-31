@@ -1,0 +1,64 @@
+============================
+Future features and bugfixes
+============================
+
+Features
+========
+
+API change
+----------
+
+Change API of document constructor such the document source type should be
+explicite. Examples :
+
+>>> doc = openXmlDocument(url='http://some.site.tld/gossips.docx')
+>>> data = open('gossips.docx', 'rb').read()
+>>> doc = openXmlDocument(data=data, mime_type='application/xxx')
+>>> doc = openXmlDocument(filepath='/somewhere/gossips.docx')
+>>> handle = open('/somewhere/gossips.docx')
+>>> doc = openXmlDocument(stream=handle)
+
+Remove downloaded temporary file
+--------------------------------
+
+When data is coming from HTTP (...) URL, it's stored in a temporary file that's
+not deleted after processing.
+
+Support for standard mimetypes module
+-------------------------------------
+
+Add our mime types to standard Python module.
+
+Support for URLs
+----------------
+
+>>> from openxmllib import openXmlDocument
+>>> doc = openXmlDocument('http://www.mydomain.com/mydoc.docx')
+
+Human readable plain text conversion
+------------------------------------
+
+>>> from openxmllib import openXmlDocument
+>>> doc = openXmlDocument(...)
+>>> doc.textDocument(target_directory)
+
+(this may be not possible for spreadsheets)
+
+HTML conversions
+----------------
+
+>>> from openxmllib import openXmlDocument
+>>> doc = openXmlDocument(...)
+>>> doc.htmlDocument(target_directory)
+
+This requires to find open source XSLT stylesheets.
+
+Document generation
+-------------------
+
+FIXME: more to say here
+
+Bugfixes
+========
+
+...Waiting for feedback ;o)
