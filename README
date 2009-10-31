@@ -2,13 +2,13 @@
 openxmllib
 ==========
 
-openxmllib is a set of tools that deals with the new ECMA 376 office file
-formats known as OpenXML.
+openxmllib is a set of tools that deals with the new ECMA 376 office
+file formats known as OpenXML.
 
 http://www.ecma-international.org/publications/standards/Ecma-376.htm
 
-OpenXML format is actually used by Microsoft Office 2007. Apple iWork'08 and
-OpenOffice 2.2 have filters to use this format too.
+OpenXML format is actually used by Microsoft Office 2007. Apple
+iWork'08 and OpenOffice 2.2 have filters to use this format too.
 
 Features
 ==========
@@ -26,8 +26,6 @@ Planned features
 
 Public API
 ==========
-
-These examples say all::
 
   >>> import openxmllib
   >>> doc = openxmllib.openXmlDocument('office.docx')
@@ -78,9 +76,7 @@ other versions of lxml.
 Installation
 ============
 
-Using the usual setuptools command::
-
-  $ [sudo] easy_install openxmllib
+$ [sudo] easy_install openxmllib
 
 Note that this will install the excellent `lxml` egg too if not already done.
 
@@ -115,15 +111,7 @@ Note that testing does not require the installation::
   $ cd tests
   $ python runalltests.py
 
-Support
-=======
-
-Use the issue tracker provided from the `project site
-<http://code.google.com/p/openxmllib/>`_.
-
 Credits
 =======
 
-* Gilles Lenfant <gilles dot lenfant at gmail dot com>
-* Kevin Deldycke <kev at coolcavemen dot com>
-* Hugo Lopes Tavares <hltbra at gmail dot com>
+Gilles Lenfant <gilles dot lenfant at gmail dot com>

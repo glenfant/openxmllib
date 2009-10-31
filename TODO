@@ -29,11 +29,6 @@ Support for standard mimetypes module
 
 Add our mime types to standard Python module.
 
-Support for URLs
-----------------
-
->>> from openxmllib import openXmlDocument
->>> doc = openXmlDocument('http://www.mydomain.com/mydoc.docx')
 
 Human readable plain text conversion
 ------------------------------------
