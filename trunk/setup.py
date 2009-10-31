@@ -5,16 +5,16 @@ import os
 import openxmllib
 
 def read(*rnames):
-  return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
+  return open(os.path.join(os.path.dirname(__file__), *rnames)).read().strip()
 
 
 name = 'openxmllib'
 version = openxmllib.version
-long_description = "%s\n%s\n%s" % (read('README'), read('TODO'), read('HISTORY'))
+long_description = "\n\n".join((read('README'), read('TODO'), read('HISTORY')))
 
 setup(name=name,
       version=version,
-      description='Provides resources to handle OpenXML documents from Python.',
+      description='Provides resources to handle OpenXML documents.',
       long_description=long_description,
       author='Gilles Lenfant',
       author_email='gilles.lenfant@gmail.com',
