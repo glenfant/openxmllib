@@ -31,6 +31,9 @@ setup(
     ],
     packages=find_packages(),
     include_package_data=True,
+    exclude_package_data={
+        '': ['tests']
+        },
     install_requires=['lxml>=1.3.0'],
     zip_safe=False,
     entry_points={
