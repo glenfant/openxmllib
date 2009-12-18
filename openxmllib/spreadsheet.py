@@ -7,11 +7,12 @@ The spreadsheet module handles a SpreadsheetML Open XML document (read *.xlsx)
 import document
 from utils import IndexableTextExtractor
 import contenttypes as ct
+import namespaces
 
 
 class SpreadsheetDocument(document.Document):
-    """Handles specific features of a SpreadsheetML document"""
-
+    """Handles specific features of a SpreadsheetML document
+    """
     _extpattern_to_mime = {
         '*.xlsx': ct.CT_SPREADSHEET_XLSX_PUBLIC,
         '*.xlsm': ct.CT_SPREADSHEET_XLSM_PUBLIC,
@@ -23,7 +24,12 @@ class SpreadsheetDocument(document.Document):
         }
 
     _text_extractors = (
-        IndexableTextExtractor(ct.CT_SPREADSHEET_SHAREDSTRINGS, 'spreadsheet-main:t'),
+        IndexableTextExtractor(ct.CT_SPREADSHEET_SHAREDSTRINGS, 'spreadsheet-main:t', separator=' '),
         )
 
-    pass
+
+    def textFromTree(self, tree):
+
+        for text in tree.xpath('//spreadsheet-main:t/text()', namespaces=namespaces.ns_map):
+            yield ''.join(t.encode('utf-8') for t in text)
+

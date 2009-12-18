@@ -15,27 +15,27 @@ class WordProcessingTest(unittest.TestCase):
 
     def setUp(self):
         test_file_path = os.path.join(TEST_FILES_IN, ALL_IN_FILES[0])
-        self.doc = openxmllib.openXmlDocument(test_file_path)
+        self.doc = openxmllib.openXmlDocument(path=test_file_path)
         return
 
 
     def test_indexableText(self):
         """Indexable text with properties"""
 
-        itext = self.doc.indexableText()
+        itext = self.doc.indexableText().split()
         some_words = (u'A', u'full', u'chàractèrs', u'non', u'custom_value_2', u'title', u'metadata')
         for word in some_words:
-            self.failUnless(word in itext, "%s was expected" % word)
+            self.failUnless(word in itext, "%s was expected in %s" % (word, itext))
         return
 
 
     def test_indexableTextNoprop(self):
         """Indexable text without properties"""
 
-        itext = self.doc.indexableText(include_properties=False)
+        itext = self.doc.indexableText(include_properties=False).split()
         some_words = (u'A', u'full', u'chàractèrs', u'non')
         for word in some_words:
-            self.failUnless(word in itext, "%s was expected" % word)
+            self.failUnless(word in itext, "%s was expected in %s" % (word, itext))
         return
 # /class WordProcessingTest
 

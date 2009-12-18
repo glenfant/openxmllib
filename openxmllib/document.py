@@ -5,11 +5,9 @@ The document modules handles an Open XML document
 # $Id$
 
 import os
-import cStringIO
 import tempfile
 import zipfile
 import shutil
-import types
 import fnmatch
 import urllib
 
@@ -20,69 +18,26 @@ from namespaces import ns_map
 from utils import xmlFile
 from utils import toUnicode
 
-def _fileExists(file_path):
-    """We cannot use os.path.exists on potential binary data
-    """
-    filename = os.path.basename(file_path)
-    try:
-        return filename in os.listdir(os.path.dirname(file_path))
-    except TypeError:
-        return False
-
-
-class _DocumentFileFactory(object):
-    def _getInfoFromURL(self, url):
-        # FIXME: we should delete this file when useless after processing
-        abs_path = urllib.urlretrieve(url)[0]
-        return (open(abs_path, 'rb'), os.path.basename(abs_path))
-
-    def _getInforFromPath(self, path):
-        return (open(path, 'rb'),
-               os.path.basename(path))
-
-    def _getInfoFromData(self, data):
-        return (cStringIO.StringIO(data), None)
-
-    def _getInfoFromFile(self, file):
-        return file, getattr(file, 'name', None)
-
-    def getFile(self, path_or_file_or_data_or_url):
-        if type(path_or_file_or_data_or_url) in types.StringTypes:
-            # Path or data or url
-            is_url = False
-            for scheme in ('http://', 'https://', 'ftp://', 'ftps://'):
-                if path_or_file_or_data_or_url.startswith(scheme):
-                    is_url = True
-                    break
-            if is_url:
-                return self._getInfoFromURL(path_or_file_or_data_or_url)
-            elif _fileExists(path_or_file_or_data_or_url):
-                return self._getInforFromPath(path_or_file_or_data_or_url)
-            else:
-                return self._getInfoFromData(path_or_file_or_data_or_url)
-        elif hasattr(path_or_file_or_data_or_url, 'read'):
-            return self._getInfoFromFile(path_or_file_or_data_or_url)
-        else:
-            raise ValueError('Cannot process such data')
-
 
 class Document(object):
-    """Handling of Open XML document (all types)"""
-
+    """Handling of Open XML document (all types)
+    Must be subclassed for various types of documents (word processing, ...)
+    Subclasses must provide these attributes:
+    - _extpattern_to_mime: a mapping ({'*.ext': 'aplication/xxx'}, ...}
+    - _text_extractors: a sequence of extractor objects that have:
+      - content_type: attribute that the extractor can handle
+      - indexableText(tree): method that returns a sequence of words from an lxml
+        ElementTree object.
+    """
     # These properties must be overriden by subclasses
-    _extpattern_to_mime = {} # ({'*.ext': 'aplication/xxx'}, ...}
+    _extpattern_to_mime = {}
     _text_extractors = []
 
-    def __init__(self, path_or_file_or_data_or_url, mime_type=None):
-        """
-        @param path_or_file_or_data_or_url: ... to the document
-        @type path_or_file_or_data_or_url: a file path,
-                                           a file object or
-                                           a binary buffer or
-                                           a url hosted file
+    def __init__(self, file_, mime_type=None):
+        """Creating a new document
+        @param file_: An opened file(like) obj to the document
         A file must be opened in 'rb' mode
         """
-
         self.mime_type = mime_type
 
         # Some shortcuts
@@ -92,11 +47,22 @@ class Document(object):
         op_dirname = os.path.dirname
 
         # Preliminary settings depending on input
-        in_file, self.filename = _DocumentFileFactory().getFile(path_or_file_or_data_or_url)
+        self.filename = getattr(file_, 'name', None)
+        if self.filename is None and mime_type is None:
+            raise ValueError("Cannot guess mime type from such object, you should use the mime_type constructor arg.")
+
+        # Need to make a real file for urllib.urlopen objects
+        if isinstance(file_, urllib.addinfourl):
+            fh, self._cache_file = tempfile.mkstemp()
+            fh = os.fdopen(fh, 'wb')
+            fh.write(file_.read())
+            fh.close()
+            file_.close()
+            file_ = open(self._cache_file, 'rb')
 
         # Inflating the file
         self._cache_dir = tempfile.mkdtemp()
-        openxmldoc = zipfile.ZipFile(in_file, 'r', zipfile.ZIP_DEFLATED)
+        openxmldoc = zipfile.ZipFile(file_, 'r', zipfile.ZIP_DEFLATED)
         for outpath in openxmldoc.namelist():
             # We need to be sure that target dir exists
             rel_outpath = op_sep.join(outpath.split('/'))
@@ -108,7 +74,7 @@ class Document(object):
             fh.write(openxmldoc.read(outpath))
             fh.close()
         openxmldoc.close()
-        in_file.close()
+        file_.close()
 
         # Getting the content types decl
         ct_file = op_join(self._cache_dir, '[Content_Types].xml')
@@ -120,7 +86,6 @@ class Document(object):
         """The official MIME type for this document
         @return: 'application/xxx' for this file
         """
-
         if self.mime_type:
             # Supposed validated by the factory
             return self.mime_type
@@ -134,7 +99,6 @@ class Document(object):
         """Document core properties
         @return: mapping of metadata
         """
-
         return self._tagValuedProperties(contenttypes.CT_CORE_PROPS)
 
 
@@ -143,7 +107,6 @@ class Document(object):
         """Document extended properties
         @return: mapping of metadata
         """
-
         return self._tagValuedProperties(contenttypes.CT_EXT_PROPS)
 
 
@@ -153,7 +116,6 @@ class Document(object):
          @param content_type: contenttypes.CT_CORE_PROPS or contenttypes.CT_EXT_PROPS
          @return: mapping like {'property name': 'property value', ...}
         """
-
         rval = {}
         if not content_type in self.content_types.listMetaContentTypes:
             # We fail silently
@@ -173,7 +135,6 @@ class Document(object):
         with the http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes
         namespace
         """
-
         rval = {}
         if len(self.content_types.getPathsForContentType(contenttypes.CT_CUSTOM_PROPS)) == 0:
             # We may have no custom properties at all.
@@ -193,7 +154,6 @@ class Document(object):
         """Helper that merges core, extended and custom properties
         @return: mapping of metadata
         """
-
         rval = {}
         rval.update(self.coreProperties)
         rval.update(self.extendedProperties)
@@ -202,34 +162,46 @@ class Document(object):
 
 
     def indexableText(self, include_properties=True):
+        """Note that self._text_extractors must be overriden by subclasses
         """
-        Note that self._text_extractors must be overriden by subclasses
-        """
-
         text = set()
         for extractor in self._text_extractors:
             for tree in self.content_types.getTreesFor(self, extractor.content_type):
                 words = extractor.indexableText(tree)
                 text |= words
+
         if include_properties:
             for prop_value in self.allProperties.values():
                 if prop_value is not None:
                     text.add(prop_value)
         return u' '.join([word for word in text])
 
+    def allText(self):
+        trees = set()
+        for content_type in self.content_types.overrides.keys():
+            for tree in self.content_types.getTreesFor(self, content_type):
+                trees.add(tree)
+        for tree in trees:
+            # textFromTree must be provided by subclasses
+            yield self.textFromTree(tree)
+
 
     def __del__(self):
-        """Cleanup at Document object detetion"""
-
+        """Cleanup at Document object deletion
+        """
         self._cleanup()
+        return
 
 
     def _cleanup(self):
         """Removing all temporary files
         Be warned that "cleanuping" your document makes it unusable.
         """
-
-        shutil.rmtree(self._cache_dir, ignore_errors=True)
+        if hasattr(self, '_cache_dir'):
+            shutil.rmtree(self._cache_dir, ignore_errors=True)
+        if hasattr(self, '_cache_file'):
+            os.remove(self._cache_file)
+        return
 
 
     @classmethod
@@ -238,7 +210,6 @@ class Document(object):
         @param mime_type: Mime type as 'application/xxx'
         @return: True if we can process such mime
         """
-
         supported_mimes = cls._extpattern_to_mime.values()
         return mime_type in supported_mimes
 
@@ -249,7 +220,6 @@ class Document(object):
         @param filename: File name as 'mydoc.docx'
         @return: True if we can process such file
         """
-
         supported_patterns = cls._extpattern_to_mime.keys()
         for pattern in supported_patterns:
             if fnmatch.fnmatch(filename, pattern):

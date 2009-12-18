@@ -15,7 +15,7 @@ class PropertiesTest(unittest.TestCase):
 
     def setUp(self):
         test_file_path = os.path.join(TEST_FILES_IN, ALL_IN_FILES[0])
-        self.doc = openxmllib.openXmlDocument(test_file_path)
+        self.doc = openxmllib.openXmlDocument(path=test_file_path)
         return
 
     def test_coreprops(self):

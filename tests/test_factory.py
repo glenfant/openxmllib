@@ -43,14 +43,14 @@ class FactoryTest(unittest.TestCase):
         # From file path
         mime_type = ct.CT_WORDPROC_DOCX_PUBLIC
         test_file_path = os.path.join(TEST_FILES_IN, ALL_IN_FILES[0])
-        doc = openxmllib.openXmlDocument(test_file_path, mime_type)
+        doc = openxmllib.openXmlDocument(path=test_file_path, mime_type=mime_type)
         self.failUnless(isinstance(doc, openxmllib.wordprocessing.WordprocessingDocument),
                         "Failed to create with mime type %s" % mime_type)
         self.failUnlessEqual(doc.mimeType, mime_type)
 
         # From file object
         fh = file(test_file_path, 'rb')
-        doc = openxmllib.openXmlDocument(fh, mime_type)
+        doc = openxmllib.openXmlDocument(file_=fh, mime_type=mime_type)
         fh.close()
         self.failUnless(isinstance(doc, openxmllib.wordprocessing.WordprocessingDocument),
                         "Failed to create with mime type %s" % mime_type)
@@ -58,7 +58,7 @@ class FactoryTest(unittest.TestCase):
 
         # From file content
         fh = file(test_file_path, 'rb')
-        doc = openxmllib.openXmlDocument(fh.read(), mime_type)
+        doc = openxmllib.openXmlDocument(data=fh.read(), mime_type=mime_type)
         fh.close()
         self.failUnless(isinstance(doc, openxmllib.wordprocessing.WordprocessingDocument),
                         "Failed to create with mime type %s" % mime_type)

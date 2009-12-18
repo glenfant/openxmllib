@@ -5,19 +5,6 @@ Future features and bugfixes
 Features
 ========
 
-API change
-----------
-
-Change API of document constructor such the document source type should be
-explicite. Examples :
-
->>> doc = openXmlDocument(url='http://some.site.tld/gossips.docx')
->>> data = open('gossips.docx', 'rb').read()
->>> doc = openXmlDocument(data=data, mime_type='application/xxx')
->>> doc = openXmlDocument(filepath='/somewhere/gossips.docx')
->>> handle = open('/somewhere/gossips.docx')
->>> doc = openXmlDocument(stream=handle)
-
 Remove downloaded temporary file
 --------------------------------
 
@@ -28,12 +15,6 @@ Support for standard mimetypes module
 -------------------------------------
 
 Add our mime types to standard Python module.
-
-Support for URLs
-----------------
-
->>> from openxmllib import openXmlDocument
->>> doc = openXmlDocument('http://www.mydomain.com/mydoc.docx')
 
 Human readable plain text conversion
 ------------------------------------
