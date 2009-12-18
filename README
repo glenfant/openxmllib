@@ -76,7 +76,7 @@ Document factory signatures::
 Note that if you're not running a Python application, you may get the indexable
 text from a document with the `openxmlinfo.py` console utility. Just type::
 
-  $ openxmlinfo.py --help
+  $ openxmlinfo --help
 
 Copying and License
 ===================

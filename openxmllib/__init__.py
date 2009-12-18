@@ -27,7 +27,7 @@ def openXmlDocument(path=None, file_=None, data=None, url=None, mime_type=None):
     """Factory function
     Will guess what document type is best suited and return the appropriate
     document type.
-    User must provide either `path`, `fyle`, `data` or `url` parameter
+    User must provide either `path`, `file_`, `data` or `url` parameter
     @param path: file path in the local filesystem to a document.
     @param file_: a file (like) object to a document (must be opened in 'rb' mode')
     @param data: the binary data of a document

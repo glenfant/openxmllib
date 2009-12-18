@@ -60,9 +60,13 @@ class IndexableTextExtractor(object):
         root = tree.getroot()
         for txp in self.text_elts_xpaths:
             elts = txp(root)
-            texts = [self.text_extract_xpath(elt)[0] for elt in elts]
-            texts = self.separator.join(texts)
+            texts = []
             # Texts in element may be empty
+            for elt in elts:
+                text = self.text_extract_xpath(elt)
+                if len(text) > 0:
+                    texts.append(text[0])
+            texts = self.separator.join(texts)
             texts = [toUnicode(x) for x in self.wordssearch_rx.findall(texts)
                      if len(x) > 0]
             rval |= set(texts)
