@@ -24,7 +24,7 @@ class GettingFromUrl(unittest.TestCase):
 
     def setUp(self):
         # here it is asummed you have started the base_http_server.py
-        self.doc = openxmllib.openXmlDocument(DOCX_URL)
+        self.doc = openxmllib.openXmlDocument(url=DOCX_URL)
 
     def __del__(self):
         os.kill(self._server_process.pid, signal.SIGKILL)

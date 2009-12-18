@@ -30,15 +30,16 @@ class DocumentConstructTest(unittest.TestCase):
     def test_path(self):
         """Construction from a file path"""
 
-        doc = openxmllib.document.Document(self.test_file_path)
+        fh = open(self.test_file_path, 'rb')
+        doc = openxmllib.document.Document(file_=fh)
         self._assertCreation(doc._cache_dir)
         return
 
     def test_body(self):
         """Construction from a file content"""
 
-        data = file(self.test_file_path, 'rb').read()
-        doc = openxmllib.document.Document(data)
+        fh = open(self.test_file_path, 'rb')
+        doc = openxmllib.document.Document(file_=fh)
         self._assertCreation(doc._cache_dir)
         return
 

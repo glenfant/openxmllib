@@ -10,12 +10,12 @@ import os
 import fixures
 
 class FixuresTest(unittest.TestCase):
-    """Testing the tests environment"""
-
+    """Testing the tests environment
+    """
     def test_syspath(self):
-        """Do we include the openxmllib package in sys.path"""
-
-        self.failUnlessEqual(fixures.parent_dir, sys.path[0],
+        """Do we include the openxmllib package in sys.path
+        """
+        self.failUnless(fixures.parent_dir in sys.path,
                              "%s not in sys.path" % fixures.parent_dir)
         sp_copy = list(sys.path)
         sp_copy.remove(fixures.parent_dir)
@@ -25,14 +25,16 @@ class FixuresTest(unittest.TestCase):
 
 
     def test_testdir(self):
-        """Do we have test data"""
-
+        """Do we have test data
+        """
         self.failUnless(os.path.isdir(fixures.TEST_FILES_IN),
                         "We have no test data")
         return
 
+
     def test_import(self):
-        """Do we import our lovely package"""
+        """Do we import our lovely package
+        """
 
         import openxmllib
         dummy = openxmllib.openXmlDocument

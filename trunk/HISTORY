@@ -2,6 +2,16 @@
 History
 =======
 
+1.0.6
+=====
+
+ - The bug of mid word style change is still not fixed in presentation and
+   spreadsheets :/ Anyway, we needed an API sanitazation.
+   [gilles.lenfant_AT_gmail_DOT_com]
+
+ - Factory API changed for a safer and faster document object construction.
+   [gilles.lenfant_AT_gmail_DOT_com]
+
 1.0.5
 =====
 
