@@ -11,13 +11,14 @@ OpenXML format is actually used by Microsoft Office 2007. Apple iWork'08 and
 OpenOffice 2.2 have filters to use this format too.
 
 Features
-==========
+========
 
 Tested features
 ---------------
 
 * Extract words from a document for indexing purpose.
 * Get metadata from a document
+* Add OpenXml mimetypes to standard ``mimetypes`` module.
 
 Planned features
 ----------------
@@ -30,7 +31,7 @@ Public API
 These examples say all::
 
   >>> import openxmllib
-  >>> doc = openxmllib.openXmlDocument('office.docx')
+  >>> doc = openxmllib.openXmlDocument(path='office.docx')
   >>> # Raises a ValueError on not supported office files.
   >>> doc.mimeType
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
@@ -46,6 +47,31 @@ These examples say all::
   u'all the words of that document body'
   >>> doc.indexableText(include_properties=True)
   u'all the words of that document body and all properties values'
+
+Standard ``mimetypes`` package extensions ::
+
+  >>> import mimetypes
+  >>> mimetypes.guess_type('somedoc.docx')
+  ('application/vnd.openxmlformats-officedocument.wordprocessingml.document', None)
+  >>> mimetypes.guess_type('somecalc.xlsx')
+  ('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', None)
+  >>> mimetypes.guess_type('someslides.pptx')
+  ('application/vnd.openxmlformats-officedocument.presentationml.presentation', None)
+
+Document factory signatures::
+
+  >>> # We have the path for the office file
+  >>> doc = openxmllib.openXmlDocument(path='office.docx')
+  >>> # We have a file object for the office file
+  >>> fh = open('office.docx', 'rb')
+  >>> doc = openxmllib.openXmlDocument(file_='office.docx')
+  >>> # We have the URL for the office file
+  >>> doc = openxmllib.openXmlDocument(url='http://domain.tld/office.docx')
+  >>> # Xe have the raw data of the office file
+  >>> import mimetypes
+  >>> docx_mimetype = mimetypes.guess_type('office.docx')
+  >>> body = open('office.docx', 'rb').read()
+  >>> doc = open(data=body, mime_type=docx_mimetype)
 
 Note that if you're not running a Python application, you may get the indexable
 text from a document with the `openxmlinfo.py` console utility. Just type::

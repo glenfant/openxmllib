@@ -9,12 +9,12 @@ def read(*rnames):
 
 
 name = 'openxmllib'
-version = openxmllib.version
+
 long_description = "\n\n".join((read('README'), read('TODO'), read('HISTORY')))
 
 setup(
-    name=name,
-    version=version,
+    name='openxmllib',
+    version=openxmllib.version,
     description='Provides resources to handle OpenXML documents.',
     long_description=long_description,
     author='Gilles Lenfant',
