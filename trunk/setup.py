@@ -2,11 +2,9 @@
 # $Id$
 from setuptools import setup, find_packages
 import os
-import openxmllib
 
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read().strip()
-
 
 name = 'openxmllib'
 
@@ -14,7 +12,7 @@ long_description = "\n\n".join((read('README'), read('TODO'), read('HISTORY')))
 
 setup(
     name='openxmllib',
-    version=openxmllib.version,
+    version=read('openxmllib', 'version.txt'),
     description='Provides resources to handle OpenXML documents.',
     long_description=long_description,
     author='Gilles Lenfant',

@@ -6,9 +6,6 @@ Open XML document is defined by the ECMA-376 standard
 http://www.ecma-international.org/publications/standards/Ecma-376.htm
 """
 
-version_info = (1, 0, 6)
-version = '.'.join([str(x) for x in version_info])
-
 import os
 import cStringIO
 import urllib2
@@ -17,6 +14,10 @@ import mimetypes
 import wordprocessing
 import spreadsheet
 import presentation
+
+version = None
+if version is None:
+    version = open(os.path.join(os.path.dirname(__file__), 'version.txt')).read().strip()
 
 _document_classes = (
     wordprocessing.WordprocessingDocument,

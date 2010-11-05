@@ -20,7 +20,7 @@ if not os.getenv('PYTHON_UNIT_TEST', False):
 # Directories with test files
 TEST_FILES_IN = os.path.join(this_dir, 'in')
 ALL_IN_FILES = ('wordprocessing1.docx', 'spreadsheet1.xlsx', 'presentation1.pptx')
-HOST_NAME = '0.0.0.0'
+HOST_NAME = '127.0.0.1'
 PORT = 8088
 DOCX_URL = 'http://%s:%s/word.docx' % (HOST_NAME, PORT)
 
