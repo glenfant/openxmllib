@@ -2,6 +2,20 @@
 History
 =======
 
+.. admonition::
+   Issues # xxx
+
+   See <http://code.google.com/p/openxmllib/issues/list>_
+
+1.0.7
+=====
+
+ - Fixed setup.py that imports indirectly lxml. Raises failure in buildout.
+   Issue # 11
+   [gilles_DOT_lenfant_AT_gmail_DOT_com]
+ - unit tests temporary http server did not work
+   [gilles_DOT_lenfant_AT_gmail_DOT_com]
+
 1.0.6
 =====
 
