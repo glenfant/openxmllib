@@ -12,72 +12,72 @@ History
 
  - Fixed setup.py that imports indirectly lxml. Raises failure in buildout.
    Issue # 11
-   [gilles_DOT_lenfant_AT_gmail_DOT_com]
+   [gilles.lenfant]
  - unit tests temporary http server did not work
-   [gilles_DOT_lenfant_AT_gmail_DOT_com]
+   [gilles.lenfant]
 
 1.0.6
 =====
 
  - The bug of mid word style change is still not fixed in presentation and
    spreadsheets :/ Anyway, we needed an API sanitazation.
-   [gilles_DOT_lenfant_AT_gmail_DOT_com]
+   [gilles.lenfant]
  - Factory API changed for a safer and faster document object construction.
-   [gilles_DOT_lenfant_AT_gmail_DOT_com]
+   [gilles.lenfant]
  - Added support for new mime types that are not in the standard mimetypes
    module.
-   [gilles_DOT_lenfant_AT_gmail_DOT_com]
+   [gilles.lenfant]
 
 1.0.5
 =====
 
  - Optims on large documents.
-   [gilles_DOT_lenfant_AT_gmail_DOT_com]
+   [gilles.lenfant]
  - CamelCased functions and method names in consistency with applied rules.
-   [gilles_DOT_lenfant_AT_gmail_DOT_com]
+   [gilles.lenfant]
  - Version reset to 1.0.5
-   [gilles_DOT_lenfant_AT_gmail_DOT_com]
+   [gilles.lenfant]
  - Support for urllib compatible URLs
-   [gilles_DOT_lenfant_AT_gmail_DOT_com]
+   [gilles.lenfant]
  - New: Support for URLs
-   [hltbra_AT_gmail_DOT_com]
+   [hltbra]
  - Fixed implementation to that old tests pass (the "midword"/"metadata" case,
    bold + normal style was not ok)
-   [hltbra_AT_gmail_DOT_com]
+   [hltbra]
 
 1.0.4
 =====
 
  - Compliance with python 2.5 and lxml 2.2
    Still works with python 2.4 and lxml 1.3.6
-   [gilles_DOT_lenfant_AT_gmail_DOT_com]
+   [gilles.lenfant]
  - Automate package and version definition
  - Bump version to 1.0.4
-   2008-12-11 [kev_AT_coolcavemen_DOT_com]
+   2008-12-11 [kevin.deldycke]
 
 1.0.3
 =====
 
  - Conforming XPath constructor signature.
-   [gilles_DOT_lenfant_AT_gmail_DOT_com]
+   [gilles.lenfant]
 
  - New test files built with Mac Office 2008
-   [gilles_DOT_lenfant_AT_gmail_DOT_com]
+   [gilles.lenfant]
 
 1.0.2
 =====
 
  - Fix bad "egging".
-   [kev_AT_coolcavemen_DOT_com]
+   [kevin.deldycke]
 
 1.0.1
 =====
 
  - Egg-ification.
-   [kev_AT_coolcavemen_DOT_com]
+   [kevin.deldycke]
 
 1.0.0
 =====
 
  - First public version.
-   [gilles_DOT_lenfant_AT_gmail_DOT_com]
+   [gilles.lenfant]
