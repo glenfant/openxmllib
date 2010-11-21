@@ -111,7 +111,7 @@ Using the usual setuptools command::
 Note that this will install the excellent `lxml` egg too if not already done.
 
 From now you can "import openxmllib" in your Python apps and use the
-"openxmlinfo.py" command line utility.
+"openxmlinfo" command line utility.
 
 Gotchas
 =======

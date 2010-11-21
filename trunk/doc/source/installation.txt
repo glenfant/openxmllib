@@ -1,0 +1,112 @@
+.. -*- coding: utf-8 -*-
+
+.. _installation:
+
+============
+Installation
+============
+
+End users an application integrators
+====================================
+
+Well, you want to use ``openxmllib`` and don't need to see what's inside. You
+may install ``openxmllib`` using on of the following ways.
+
+easy_install (setuptools)
+-------------------------
+
+.. code-block:: sh
+
+  $ easy_install openxmllib
+
+pip
+---
+
+I prefer `pip <http://pypi.python.org/pypi/pip>`_.
+
+.. code-block:: sh
+
+  $ pip install openxmllib
+
+zc.buildout
+-----------
+
+If your app is built from a `zc.buildout
+<http://pypi.python.org/pypi/zc.buildout/>`_ configuration, you may just use
+this in your config file:
+
+.. code-block:: ini
+
+  [buildout]
+  # ...
+  parts =
+  #   ...
+      openxmlinfo
+  #   ...
+  # ...
+  [openxmlinfo]
+  # See http://pypi.python.org/pypi/zc.recipe.egg
+  recipe = zc.recipe.egg
+  eggs = openxmllib
+
+openxmllib developers
+=====================
+
+Want to help to fix bugs in ``openxmllib``, add new features or improve this doc?
+
+Have a Google account and ask to the author
+
+Installation gotchas
+====================
+
+``openxmllib`` uses the excellent `lxml <http://pypi.pyhton.org/pypi/lxml/>`_
+XML processor. That is a fast, easy to use and comprehensive XML processor for
+Python.
+
+Unfortunately, for some systems and some Python versions, installing ``lxml`` is
+somehow painful.
+
+Please read carefuly the `lxml installation instructions
+<http://codespeak.net/lxml/installation.html>`_, and come back installing
+``openxmllib`` after a successful ``lxml`` installation.
+
+If the above instructions don't help, here are some hints, assuming that you
+install a version that complies with ``openxmllib`` (`see the *install_requires*
+line here <http://code.google.com/p/openxmllib/source/browse/trunk/setup.py>`_):
+
+Compile statically lxml
+-----------------------
+
+From source code in your buildout, using a part with the `z3c.recipe.staticlxml
+<http://pypi.python.org/pypi/z3c.recipe.staticlxml/>`_ recipe.
+
+Use a distro package
+--------------------
+
+Your system installation tool (MacPorts, aptitude, yum, ...) provides a,
+``lxml`` package with a compatible version for the Python interpreter that runs
+your app. Good news. Install it that way if the above mentioned solutions don't
+work.
+
+Unfortunately, such package is not exposed as an egg as expected by the
+``openxmllib`` distribution.
+
+If you intalled with :command:`easy_install` or :command:`pip`, you may use the
+:option:`--ignore-deps` option. See the :option:`--help` option of your prefered
+command.
+
+If you installed with ``zc.buildout``, you may use `collective.recipe.mockedeggs
+<http://pypi.python.org/pypi/collective.recipe.mockedeggs/>`_ to have ``lxml``
+recognized as a regular egg.
+
+.. code-block:: ini
+
+   [buildout]
+   # ...
+   parts =
+       mockedeggs
+   #   ...
+   [mockedeggs]
+   recipe = collective.recipe.mockedeggs
+   mocked-eggs =
+       lxml=2.2.8
