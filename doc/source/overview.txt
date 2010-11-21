@@ -1,0 +1,42 @@
+.. -*- coding: utf-8 -*-
+
+.. _overview:
+
+========
+Overview
+========
+
+What's ``openxmllib``
+=====================
+
+``openxmllib`` is a Python package that processes Open XML documents and renders
+them in various ways.
+
+Open XML is the office document format supported natively by MS Office 2007, and
+as import/export format by Apple iWork'08 and OpenOffice 2.2.
+
+Open XML format is specified by the `ECMA-376 standard
+<http://www.ecma-international.org/publications/standards/Ecma-376.htm>`_ and
+now recorded as ISO/IEC standard ISO/IEC 29500.
+
+Some starters about this format are available at `Wikipedia page about ECMA-376
+<http://en.wikipedia.org/wiki/ECMA-376>`_. Wikipedia has another page that
+`lists the softwares that support this format
+<http://en.wikipedia.org/wiki/List_of_software_that_supports_Office_Open_XML>`_.
+
+Features
+========
+
+Actually
+--------
+
+* Extract words from a document for indexing purpose.
+* Get metadata from a document
+* Add OpenXml mimetypes to standard ``mimetypes`` module.
+* Command line utility for use from non Python apps
+
+Future features
+---------------
+
+* Transform a document to plain text
+* Transform a document to HTML

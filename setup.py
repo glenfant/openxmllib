@@ -8,7 +8,10 @@ def read(*rnames):
 
 name = 'openxmllib'
 
-long_description = "\n\n".join((read('README'), read('TODO'), read('HISTORY')))
+long_description = "\n\n".join((
+    read('README.txt'),
+    read('doc', 'source', 'TODO.txt'),
+    read('doc', 'source', 'HISTORY.txt')))
 
 setup(
     name='openxmllib',

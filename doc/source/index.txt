@@ -1,0 +1,23 @@
+.. -*- coding: utf-8 -*-
+
+==========
+openxmllib
+==========
+
+Processing of Open XML documents in Python.
+
+.. toctree::
+   :maxdepth: 2
+
+   overview
+   installation
+   ../../HISTORY
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`
+
