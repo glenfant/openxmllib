@@ -13,6 +13,9 @@ def xmlFile(path, mode='r'):
     In case such XML file is used, we must skip these characters
     So we open all XML files for read with 'xmlFile'.
     TODO: File this issue to lxml ML or tracker (feature or bug ?)
+
+    :param path: The path to the file
+    :param mode: Mode for opéning the file
     """
     fh = file(path, mode)
     while fh.read(1) != '<': # Ignoring everything before '<?xml...'

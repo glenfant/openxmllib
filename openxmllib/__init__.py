@@ -25,17 +25,24 @@ _document_classes = (
     presentation.PresentationDocument)
 
 def openXmlDocument(path=None, file_=None, data=None, url=None, mime_type=None):
-    """Factory function
+    """**Factory function**
+
     Will guess what document type is best suited and return the appropriate
     document type.
-    User must provide either `path`, `file_`, `data` or `url` parameter
-    @param path: file path in the local filesystem to a document.
-    @param file_: a file (like) object to a document (must be opened in 'rb' mode')
-    @param data: the binary data of a document
-    @param url: the URL of a document
-    @param mime_type: mime type if known
-    @return : Document subclass object
-    Warning, when passing a file data, the mime_type is required
+    User must provide either ``path``, ``file_``, ``data`` or ``url`` parameter.
+
+    :param path: file path in the local filesystem to a document.
+    :param file_: a file (like) object to a document (must be opened in 'rb' mode')
+    :param data: the binary data of a document
+    :param url: the URL of a document
+    :param mime_type: mime type if known. One of the known MIME types from :mod:`openxmllib.contenttypes`.
+
+    Note that ``mime_tyype`` parameter **must** be provided if you provide the
+    Open XML document through the ``data`` parameter. Otherwise, if you don't
+    provide one, we'll try to guess which is the most appropriate using the file
+    extension.
+
+    :return: A subclass of :class:`openxmllib.document.Document`.
     """
     if path is not None:
         file_ = open(path, 'rb')
