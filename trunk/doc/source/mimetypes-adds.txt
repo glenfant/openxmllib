@@ -1,0 +1,22 @@
+.. -*- coding: utf-8 -*-
+
+.. _mimetypes-adds:
+
+==============================
+``mimetypes`` additional types
+==============================
+
+:mod:`openxmllib` adds all known MIME types for Open XML documents to the
+standard :mod:`mimetypes` module.
+
+.. code-block:: pycon
+
+   >>> import mimetypes
+   >>> mimetypes.guess_type('some-doc.docx')
+   (None, None)
+   >>> import openxmllib
+   >>> mimetypes.guess_type('some-doc.docx')
+   ('application/vnd.openxmlformats-officedocument.wordprocessingml.document', None)
+
+Read `the full list of MIME types and file mane extensions
+<http://technet.microsoft.com/en-us/library/ee309278(office.12).aspx>`_.

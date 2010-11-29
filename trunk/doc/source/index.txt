@@ -11,7 +11,11 @@ Processing of Open XML documents in Python.
 
    overview
    installation
-   ../../HISTORY
+   commandline
+   mimetypes-adds
+   public-api
+   TODO
+   HISTORY
 
 
 Indices and tables
@@ -20,4 +24,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
