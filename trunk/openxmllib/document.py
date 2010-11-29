@@ -20,24 +20,23 @@ from utils import toUnicode
 
 
 class Document(object):
-    """Handling of Open XML document (all types)
-    Must be subclassed for various types of documents (word processing, ...)
-    Subclasses must provide these attributes:
-    - _extpattern_to_mime: a mapping ({'*.ext': 'aplication/xxx'}, ...}
-    - _text_extractors: a sequence of extractor objects that have:
-      - content_type: attribute that the extractor can handle
-      - indexableText(tree): method that returns a sequence of words from an lxml
-        ElementTree object.
+    """**Base class for handling Open XML document (all types)**
+
+    **Must** be subclassed for various types of documents (word processing, ...)
+
+    :param file_: An opened file(like) object of the document that must be opened in 'rb' mode
+    :param mime_type: the MIME type for the file, potentially found by :func:`openxmllib.openXmlDocument`
     """
-    # These properties must be overriden by subclasses
+    #: A mapping like ``{glob-expr: mime-type, ...}`` must be overriden by subclasses
     _extpattern_to_mime = {}
+
+    #: A sequence of extractor objects for text extraction  must be overriden by subclasses
     _text_extractors = []
 
     def __init__(self, file_, mime_type=None):
-        """Creating a new document
-        @param file_: An opened file(like) obj to the document
-        A file must be opened in 'rb' mode
+        """**Creating a new document**
         """
+        #: The MIME type of the document
         self.mime_type = mime_type
 
         # Some shortcuts
@@ -47,6 +46,7 @@ class Document(object):
         op_dirname = os.path.dirname
 
         # Preliminary settings depending on input
+        #: The file mane of the document
         self.filename = getattr(file_, 'name', None)
         if self.filename is None and mime_type is None:
             raise ValueError("Cannot guess mime type from such object, you should use the mime_type constructor arg.")
@@ -60,11 +60,12 @@ class Document(object):
             file_.close()
             file_ = open(self._cache_file, 'rb')
 
-        # Inflating the file
+        # Inflating the zipped file
         self._cache_dir = tempfile.mkdtemp()
         openxmldoc = zipfile.ZipFile(file_, 'r', zipfile.ZIP_DEFLATED)
         for outpath in openxmldoc.namelist():
-            # We need to be sure that target dir exists
+
+            # Makes Windows path when under Windows
             rel_outpath = op_sep.join(outpath.split('/'))
             abs_outpath = op_join(self._cache_dir, rel_outpath)
             abs_outdir = op_dirname(abs_outpath)
@@ -76,15 +77,22 @@ class Document(object):
         openxmldoc.close()
         file_.close()
 
-        # Getting the content types decl
+        # Getting the content types declarations
         ct_file = op_join(self._cache_dir, '[Content_Types].xml')
+
+        #: A :class:`openxmllib.contenttypes.ContentTypes` object for this document
         self.content_types = contenttypes.ContentTypes(xmlFile(ct_file, 'rb'))
+        return
 
 
     @property
     def mimeType(self):
-        """The official MIME type for this document
-        @return: 'application/xxx' for this file
+        """The official MIME type for this document, guessed from the extensions
+        of the :py:attr:`openxmllib.document.Document.filename` attribute, as
+        opposed to the :py:attr:`openxmllib.document.Document.mime_type`
+        attribute.
+
+        :return: ``application/xxx`` for this file
         """
         if self.mime_type:
             # Supposed validated by the factory
@@ -96,25 +104,28 @@ class Document(object):
 
     @property
     def coreProperties(self):
-        """Document core properties
-        @return: mapping of metadata
+        """Document core properties (author, ...) similar to DublinCore
+
+        :return: mapping of standard metadata like ``{'title': 'blah', 'language': 'fr-FR', ...}``
         """
         return self._tagValuedProperties(contenttypes.CT_CORE_PROPS)
 
 
     @property
     def extendedProperties(self):
-        """Document extended properties
-        @return: mapping of metadata
+        """Additional document automatic properties provided by the office app
+
+        :return: mapping of metadata like ``{'Pages': '14', ...}``
         """
         return self._tagValuedProperties(contenttypes.CT_EXT_PROPS)
 
 
     def _tagValuedProperties(self, content_type):
         """Document properties for property files having constructs like
-         <ns:name>value</ns:name>
-         @param content_type: contenttypes.CT_CORE_PROPS or contenttypes.CT_EXT_PROPS
-         @return: mapping like {'property name': 'property value', ...}
+        <ns:name>value</ns:name>
+
+        :param content_type: ``contenttypes.CT_CORE_PROPS`` or ``contenttypes.CT_EXT_PROPS``
+        :return: mapping like {'property name': 'property value', ...}
         """
         rval = {}
         if not content_type in self.content_types.listMetaContentTypes:
@@ -129,11 +140,13 @@ class Document(object):
 
     @property
     def customProperties(self):
-        """Document custom properties
-        @return: mapping of metadata
-        FIXME: This is ugly. We do not convert the properties as indicated
+        """Document custom properties added by the document author.
+
+        We canot convert the properties as indicated
         with the http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes
         namespace
+
+        :return: mapping of metadata
         """
         rval = {}
         if len(self.content_types.getPathsForContentType(contenttypes.CT_CUSTOM_PROPS)) == 0:
@@ -152,7 +165,8 @@ class Document(object):
     @property
     def allProperties(self):
         """Helper that merges core, extended and custom properties
-        @return: mapping of metadata
+
+        :return: mapping of all properties
         """
         rval = {}
         rval.update(self.coreProperties)
@@ -162,7 +176,10 @@ class Document(object):
 
 
     def indexableText(self, include_properties=True):
-        """Note that self._text_extractors must be overriden by subclasses
+        """Words found in the various texts of the document.
+
+        :param include_properties: Adds words from properties
+        :return: Space separated words of the document.
         """
         text = set()
         for extractor in self._text_extractors:
@@ -176,26 +193,9 @@ class Document(object):
                     text.add(prop_value)
         return u' '.join([word for word in text])
 
-    def allText(self):
-        trees = set()
-        for content_type in self.content_types.overrides.keys():
-            for tree in self.content_types.getTreesFor(self, content_type):
-                trees.add(tree)
-        for tree in trees:
-            # textFromTree must be provided by subclasses
-            yield self.textFromTree(tree)
-
 
     def __del__(self):
         """Cleanup at Document object deletion
-        """
-        self._cleanup()
-        return
-
-
-    def _cleanup(self):
-        """Removing all temporary files
-        Be warned that "cleanuping" your document makes it unusable.
         """
         if hasattr(self, '_cache_dir'):
             shutil.rmtree(self._cache_dir, ignore_errors=True)
@@ -207,8 +207,9 @@ class Document(object):
     @classmethod
     def canProcessMime(cls, mime_type):
         """Check if we can process such mime type
-        @param mime_type: Mime type as 'application/xxx'
-        @return: True if we can process such mime
+
+        :param mime_type: Mime type as 'application/xxx'
+        :return: True if we can process such mime
         """
         supported_mimes = cls._extpattern_to_mime.values()
         return mime_type in supported_mimes
@@ -217,8 +218,9 @@ class Document(object):
     @classmethod
     def canProcessFilename(cls, filename):
         """Check if we can process such file based on name
-        @param filename: File name as 'mydoc.docx'
-        @return: True if we can process such file
+
+        :param filename: File name as 'mydoc.docx'
+        :return: True if we can process such file
         """
         supported_patterns = cls._extpattern_to_mime.keys()
         for pattern in supported_patterns:
