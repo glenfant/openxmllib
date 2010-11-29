@@ -2,9 +2,9 @@
 
 .. _mimetypes-adds:
 
-==============================
-``mimetypes`` additional types
-==============================
+=========================================
+Addition to standard module ``mimetypes``
+=========================================
 
 :mod:`openxmllib` adds all known MIME types for Open XML documents to the
 standard :mod:`mimetypes` module.
