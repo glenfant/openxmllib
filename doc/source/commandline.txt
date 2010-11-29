@@ -1,0 +1,35 @@
+.. -*- coding: utf-8 -*-
+
+.. _commandline:
+
+=========================
+Command line: openxmlinfo
+=========================
+
+``openxmllib`` installs a command line utility named :command:`openxmlinfo`.
+
+As usual command line utilities, it has an :option:`openxml -h` option that says
+all.
+
+.. program:: openxmlinfo [options] <command> <file>
+
+.. option:: --version
+
+   Prints the version of this utility, |version| today.
+
+.. option:: -h, --help
+
+   Shows the common usage of ``openxmlinfo``
+
+.. option:: -c <charset>, --charset=<charset>
+
+   Output is convertd to this charset (default = ``utf-8``)
+
+.. option:: -v, --verbosity
+
+   Adds verbosity (option mays be used several times as ``-vvv``)
+
+.. hint::
+
+   You may use ``openxmlinfo`` to index the content of an Open XML document from
+   a non Python application, just grabbing the stdout.

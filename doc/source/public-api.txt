@@ -1,0 +1,55 @@
+.. -*- coding: utf-8 -*-
+
+.. _public-api:
+
+==========
+Public API
+==========
+
+
+The main factory
+================
+
+The main factory function you should use in your application to get a
+:class:`openxmllib.document.Document` subclass:
+
+* :class:`openxmllib.wordprocessing.WordprocessingDocument` typically built from
+  MS Word.
+* :class:`openxmllib.presentation.PresentationDocument` typically built from MS
+  Powerpoint.
+* :class:`openxmllib.spreadsheet.SpreadsheetDocument` typically built from MS
+  Excel.
+
+If you're missusing this factory, you'll get a ``ValueError`` exception that
+says what's wrong.
+
+.. autofunction:: openxmllib.openXmlDocument
+
+The document classes
+====================
+
+Base class
+----------
+
+All documents classes inherit from :class:`openxmllib.document.Document`.
+
+.. autoclass:: openxmllib.document.Document
+   :members:
+
+Other attributes
+~~~~~~~~~~~~~~~~
+
+.. autoattribute:: openxmllib.document.Document._extpattern_to_mime
+
+.. autoattribute:: openxmllib.document.Document._text_extractors
+
+.. hint::
+   Metadata
+
+   The various metadata provided by
+   :attr:`openxmllib.document.Document.coreProperties`,
+   :attr:`openxmllib.document.Document.extendedProperties` and
+   :attr:`openxmllib.document.Document.customProperties` depend on the
+   application used to build the document. You can use the :ref:`commandline`
+   to see what properties / metadata are applied to your document using the
+   command: :samp:`openxmlinfo -vv metadata {your-file}`.

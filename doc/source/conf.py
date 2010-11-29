@@ -12,6 +12,7 @@
 # serve to show the default.
 
 import sys, os
+import time
 
 def _projectRoot():
     # We assume that this file is in <project-root>/doc/source
@@ -56,7 +57,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'openxmllib'
-copyright = u'2010, Gilles Lenfant'
+copyright = u'2008-%d, Gilles Lenfant' % time.localtime().tm_year
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -229,4 +230,4 @@ latex_documents = [
 man_pages = [
     ('index', 'openxmllib', u'openxmllib Documentation',
      [u'Gilles Lenfant'], 1)
-]
+    ]
