@@ -128,8 +128,7 @@ problems in a try (...) except (...) block in your application.
 Developing and testing
 ======================
 
-You should grab openxmllib with your subversion client from its `repository at
-Google code <http://code.google.com/p/openxmllib/source/checkout>`_.
+You should grab openxmllib from its `repository at https://github.com/glenfant/openxmllib`_.
 
 Then::
 
@@ -145,7 +144,7 @@ Support
 =======
 
 Use the issue tracker provided from the `project site
-<http://code.google.com/p/openxmllib/>`_.
+<https://github.com/glenfant/openxmllib/issues>`_.
 
 Credits
 =======
