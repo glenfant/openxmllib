@@ -19,6 +19,7 @@ Tested features
 * Extract words from a document for indexing purpose.
 * Get metadata from a document
 * Add OpenXml mimetypes to standard ``mimetypes`` module.
+* Extract cover thumbnail image, if the document contains it
 
 Planned features
 ----------------
@@ -47,6 +48,8 @@ These examples say all::
   u'all the words of that document body'
   >>> doc.indexableText(include_properties=True)
   u'all the words of that document body and all properties values'
+  >>> d.documentCover()
+  ('jpg', <open file '/var/folders/.../docProps/thumbnail.jpeg', mode 'rb' at 0x1af300>)
 
 Standard ``mimetypes`` package extensions ::
 
