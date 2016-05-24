@@ -10,6 +10,10 @@ CONTENT_TYPES = 'http://schemas.openxmlformats.org/package/2006/content-types'
 CORE_PROPERTIES = 'http://schemas.openxmlformats.org/package/2006/metadata/core-properties'
 EXTENDED_PROPERTIES = 'http://schemas.openxmlformats.org/officeDocument/2006/extended-properties'
 CUSTOM_PROPERTIES = 'http://schemas.openxmlformats.org/officeDocument/2006/custom-properties'
+RELATIONSHIPS = 'http://schemas.openxmlformats.org/package/2006/relationships'
+
+# Thumbnails
+THUMBNAILS = "http://schemas.openxmlformats.org/package/2006/relationships/metadata/thumbnail"
 
 # Wordprocessing
 WP_MAIN = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main'
@@ -26,6 +30,8 @@ ns_map = {
     'core-properties': CORE_PROPERTIES,
     'extended-properties': EXTENDED_PROPERTIES,
     'custom-properties': CUSTOM_PROPERTIES,
+    'thumbnails': THUMBNAILS,
+    'relationships': RELATIONSHIPS,
     'wordprocessing-main': WP_MAIN,
     'spreadsheet-main': SS_MAIN,
     'presentation-main': PR_MAIN

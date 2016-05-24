@@ -24,7 +24,7 @@ class SpreadsheetTest(unittest.TestCase):
         """
         itext = self.doc.indexableText().split()
         some_words = (u'this', u'is', u'a', u'spreadsheet', u'another', u'sum',
-            u'myinfo1', u'myinfo2', u'title', u'subject', u'comments', u'midword')
+            u'myinfo1', u'myinfo2', u'title', u'subject', u'comments')
         for word in some_words:
             self.failUnless(word in itext, "%s was expected in %s" % (word, itext))
         return

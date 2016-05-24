@@ -9,6 +9,8 @@ import time
 import codecs
 import locale
 import types
+import shutil
+
 import openxmllib
 
 DEFAULT_CHARSET = locale.getpreferredencoding()
@@ -17,7 +19,8 @@ Version: %s
 %s
 Commands:
 * `metadata' shows the file's metadata.
-* `words' shows all words from file."""
+* `words' shows all words from file.
+* `cover' extracts the cover image."""
 VERSION = openxmllib.version
 
 
@@ -71,9 +74,25 @@ class Application(object):
             self.showWords(filename)
         return
 
+    def coverCmd(self):
+        self.log(1, "Trying to extract cover image from %s.", ", ".join(self.filenames))
+        for filename in self.filenames:
+            docname = filename.split(os.sep)[-1].split('.')[0]
+            cover = self.extractCover(filename)
+            if cover:
+                cover_type, cover_file = cover
+                cover_path = os.getcwd() + os.sep + docname + "-cover." + cover_type
+                with open(cover_path, "wb") as cover_out:
+                    shutil.copyfileobj(cover_file, cover_out)
+                self.log(1, "Wrote cover image '%s'" % cover_path)
+            else:
+                self.log(1, "No cover image found inside %s" % filename)
+        return
+
     commands = {
         'metadata': metadataCmd,
-        'words': wordsCmd
+        'words': wordsCmd,
+        'cover': coverCmd
         }
 
     def showMetadata(self, filename):
@@ -103,6 +122,10 @@ class Application(object):
         print self.recode(text)
         self.log(1, "Words extracted in %s second(s)", duration)
         return
+
+    def extractCover(self, filename):
+        doc = openxmllib.openXmlDocument(path=filename)
+        return doc.documentCover()
 
     def checkfile(self, filename):
         if not os.path.isfile(filename):

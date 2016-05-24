@@ -19,6 +19,7 @@ Tested features
 * Extract words from a document for indexing purpose.
 * Get metadata from a document
 * Add OpenXml mimetypes to standard ``mimetypes`` module.
+* Extract cover thumbnail image, if the document contains it
 
 Planned features
 ----------------
@@ -47,6 +48,8 @@ These examples say all::
   u'all the words of that document body'
   >>> doc.indexableText(include_properties=True)
   u'all the words of that document body and all properties values'
+  >>> d.documentCover()
+  ('jpg', <open file '/var/folders/.../docProps/thumbnail.jpeg', mode 'rb' at 0x1af300>)
 
 Standard ``mimetypes`` package extensions ::
 
@@ -128,8 +131,7 @@ problems in a try (...) except (...) block in your application.
 Developing and testing
 ======================
 
-You should grab openxmllib with your subversion client from its `repository at
-Google code <http://code.google.com/p/openxmllib/source/checkout>`_.
+You should grab openxmllib from its `repository at https://github.com/glenfant/openxmllib`_.
 
 Then::
 
@@ -145,7 +147,7 @@ Support
 =======
 
 Use the issue tracker provided from the `project site
-<http://code.google.com/p/openxmllib/>`_.
+<https://github.com/glenfant/openxmllib/issues>`_.
 
 Credits
 =======
