@@ -9,7 +9,7 @@ History
 .. admonition::
    Issues # xxx
 
-   See `<http://code.google.com/p/openxmllib/issues/list>`_
+   See `<https://github.com/glenfant/openxmllib/issues>`_
 
 1.1
 ===
