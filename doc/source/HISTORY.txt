@@ -11,6 +11,16 @@ History
 
    See `<http://code.google.com/p/openxmllib/issues/list>`_
 
+1.1
+===
+
+ - New feature: document cover image extraction (when present)
+   [petri]
+ - Remove old pointers in README etc. pointing to old google code repo
+   [petri]
+ - Update lxml dependency (require >= 3.6.0 now)
+   [petri]
+
 1.0.7
 =====
 
