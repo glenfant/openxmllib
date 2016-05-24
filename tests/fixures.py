@@ -20,8 +20,9 @@ if not os.getenv('PYTHON_UNIT_TEST', False):
 # Directories with test files
 TEST_FILES_IN = os.path.join(this_dir, 'in')
 ALL_IN_FILES = ('wordprocessing1.docx', 'spreadsheet1.xlsx', 'presentation1.pptx')
+ALL_IN_COVER_FILES = ('wordprocessing1_cover.docx', 'spreadsheet1_cover.xlsx', 'presentation1_cover.pptx')
 HOST_NAME = '127.0.0.1'
 PORT = 8088
 DOCX_URL = 'http://%s:%s/word.docx' % (HOST_NAME, PORT)
 
-__all__ = ('TEST_FILES_IN', 'ALL_IN_FILES', 'DOCX_URL', 'HOST_NAME', 'PORT')
+__all__ = ('TEST_FILES_IN', 'ALL_IN_FILES', 'ALL_IN_COVER_FILES', 'DOCX_URL', 'HOST_NAME', 'PORT')
