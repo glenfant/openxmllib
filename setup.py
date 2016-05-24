@@ -20,7 +20,7 @@ setup(
     long_description=long_description,
     author='Gilles Lenfant',
     author_email='gilles.lenfant@gmail.com',
-    url='http://code.google.com/p/openxmllib/',
+    url='https://github.com/glenfant/openxmllib',
     license="GPLv2",
     keywords='Python OpenXML lxml Office2007 ECMA376',
     classifiers=[

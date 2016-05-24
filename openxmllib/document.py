@@ -10,6 +10,7 @@ import zipfile
 import shutil
 import fnmatch
 import urllib
+import imghdr
 
 import lxml
 
@@ -64,7 +65,6 @@ class Document(object):
         self._cache_dir = tempfile.mkdtemp()
         openxmldoc = zipfile.ZipFile(file_, 'r', zipfile.ZIP_DEFLATED)
         for outpath in openxmldoc.namelist():
-
             # Makes Windows path when under Windows
             rel_outpath = op_sep.join(outpath.split('/'))
             abs_outpath = op_join(self._cache_dir, rel_outpath)
@@ -173,6 +173,32 @@ class Document(object):
         rval.update(self.extendedProperties)
         rval.update(self.customProperties)
         return rval
+
+
+    def documentCover(self):
+        """Cover page image
+
+        :return: (file extension, file object) tuple.
+        """
+        rels_pth = os.path.join(self._cache_dir, "_rels", ".rels")
+        rels_xml = lxml.etree.parse(xmlFile(rels_pth, 'rb'))
+        thumb_ns = ns_map["thumbnails"]
+        thumb_elm_xpr = "relationships:Relationship[@Type='%s']" % thumb_ns
+        rels_xpath = lxml.etree.XPath(thumb_elm_xpr, namespaces=ns_map)
+        try:
+            cover_path = rels_xpath(rels_xml)[0].attrib["Target"]
+        except IndexError:
+            return None
+        cover_fp = open(self._cache_dir + os.sep + cover_path, "rb")
+        cover_type = imghdr.what(None, h=cover_fp.read(32))
+        cover_fp.seek(0)
+        # some MS docs say the type can be JPEG which is ok,
+        # or WMF, which imghdr does not recognize...
+        if not cover_type:
+            cover_type = cover_path.split('.')[-1]
+        else:
+            cover_type = cover_type.replace("jpeg", "jpg")
+        return (cover_type, cover_fp)
 
 
     def indexableText(self, include_properties=True):
