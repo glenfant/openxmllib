@@ -48,7 +48,7 @@ These examples say all::
   u'all the words of that document body'
   >>> doc.indexableText(include_properties=True)
   u'all the words of that document body and all properties values'
-  >>> d.documentCover()
+  >>> doc.documentCover()
   ('jpg', <open file '/var/folders/.../docProps/thumbnail.jpeg', mode 'rb' at 0x1af300>)
 
 Standard ``mimetypes`` package extensions ::
@@ -155,3 +155,4 @@ Credits
 * Gilles Lenfant [gilles.lenfant] <gilles dot lenfant at gmail dot com>
 * Kevin Deldycke [kevin.deldycke] <kevin at deldycke dot com>
 * Hugo Lopes Tavares [hltbra] <hltbra at gmail dot com>
+* Petri Savolainen [petri] <petri dot savolainen at koodaamo dot fi>
