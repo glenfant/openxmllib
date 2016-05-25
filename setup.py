@@ -9,7 +9,7 @@ def read(*rnames):
 name = 'openxmllib'
 
 long_description = "\n\n".join((
-    read('README.txt'),
+    read('README.rst'),
     read('doc', 'source', 'TODO.txt'),
     read('doc', 'source', 'HISTORY.txt')))
 
