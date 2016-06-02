@@ -35,7 +35,7 @@ setup(
     exclude_package_data={
         '': ['tests']
         },
-    install_requires=['lxml>=3.6.0'],
+    install_requires=['lxml>=3.4.0'],
     zip_safe=False,
     entry_points={
         'console_scripts': ['openxmlinfo = openxmllib.shell:openxmlinfo']

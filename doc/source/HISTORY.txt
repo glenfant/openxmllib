@@ -18,7 +18,7 @@ History
    [petri]
  - Remove old pointers in README etc. pointing to old google code repo
    [petri]
- - Update lxml dependency (require >= 3.6.0 now)
+ - Update lxml dependency (require >= 3.4.0 now)
    [petri]
 
 1.0.7
