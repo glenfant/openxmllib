@@ -7,8 +7,9 @@ formats known as OpenXML.
 
 http://www.ecma-international.org/publications/standards/Ecma-376.htm
 
-OpenXML format is actually used by Microsoft Office 2007. Apple iWork'08 and
-OpenOffice 2.2 have filters to use this format too.
+OpenXML format is used by Microsoft Office 2007 and later. Apple iWork
+and OpenOffice have filters to use this format too, starting from iWork'08
+and OO version 2.2.
 
 Features
 ========
@@ -98,11 +99,16 @@ More details in the ``COPYING`` file included in this package.
 Status
 ======
 
-This software is in production quality, has been tested on Mac OSX, Linux and
-Windows with Python 2.4, Python 2.5, lxml 1.3.6 and lxml 2.2.
+Starting from version 1.1, this package is tested mostly using Python 2.7.x on
+Linux. If dependencies can be met, it will most likely work on older versions
+and other environments as well.
 
-It should work on other platforms, with Python 2.6, perhaps with
-other versions of lxml.
+If you don't require the cover image extraction feature and want a production-
+quality version tested on Mac OSX, Linux and Windows with Python 2.4, Python 2.5,
+lxml 1.3.6 and lxml 2.2, it might be worth your while to try 1.0.7. It should
+work on other platforms as well, with Python 2.6, perhaps with other versions of
+lxml.
+
 
 Installation
 ============
