@@ -24,6 +24,7 @@ CT_WORDPROC_DOCM_PUBLIC = 'application/vnd.ms-word.document.macroEnabled.12'
 CT_WORDPROC_DOTM_PUBLIC = 'application/vnd.ms-word.template.macroEnabled.12'
 
 CT_WORDPROC_DOCUMENT = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml'
+CT_WORDPROC_TEMPLATE = 'application/vnd.openxmlformats-officedocument.wordprocessingml.template.main+xml'
 CT_WORDPROC_NUMBERING = 'application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml'
 CT_WORDPROC_STYPES = 'application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml'
 CT_WORDPROC_FONTS = 'application/vnd.openxmlformats-officedocument.wordprocessingml.fontTable+xml'

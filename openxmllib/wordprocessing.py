@@ -20,6 +20,7 @@ class WordprocessingDocument(document.Document):
 
     _text_extractors = (
         IndexableTextExtractor(ct.CT_WORDPROC_DOCUMENT, 'wordprocessing-main:t', separator=''),
+        IndexableTextExtractor(ct.CT_WORDPROC_TEMPLATE, 'wordprocessing-main:t', separator=''),
         )
 
     def textFromTree(self, tree):
