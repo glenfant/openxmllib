@@ -16,6 +16,8 @@ class PresentationTest(unittest.TestCase):
     def setUp(self):
         test_file_path = os.path.join(TEST_FILES_IN, ALL_IN_FILES[2])
         self.doc = openxmllib.openXmlDocument(path=test_file_path)
+        test_template_file_path = os.path.join(TEST_FILES_IN, ALL_IN_TEMPLATE_FILES[2])
+        self.template = openxmllib.openXmlDocument(path=test_template_file_path)
         return
 
 
@@ -37,6 +39,17 @@ class PresentationTest(unittest.TestCase):
         itext = self.doc.indexableText(include_properties=False).split()
         some_words = (u'Chapter', u'presentation', u'proud', u'three', u'two',
              u'four', u'item', u'one', u'My')
+        for word in some_words:
+            self.failUnless(word in itext, "%s was expected in %s" % (word, itext))
+        return
+
+
+    def test_templateFile(self):
+        """Template file (potx)"""
+        itext = self.template.indexableText().split()
+        some_words = (u'Chapter', u'presentation', u'proud', u'three', u'two',
+             u'four', u'item', u'one', u'My')
+        some_words += (u'false',)
         for word in some_words:
             self.failUnless(word in itext, "%s was expected in %s" % (word, itext))
         return

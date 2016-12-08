@@ -209,9 +209,10 @@ class Document(object):
         """
         text = set()
         for extractor in self._text_extractors:
-            for tree in self.content_types.getTreesFor(self, extractor.content_type):
-                words = extractor.indexableText(tree)
-                text |= words
+            if extractor.content_type in self.content_types.overrides:
+                for tree in self.content_types.getTreesFor(self, extractor.content_type):
+                    words = extractor.indexableText(tree)
+                    text |= words
 
         if include_properties:
             for prop_value in self.allProperties.values():

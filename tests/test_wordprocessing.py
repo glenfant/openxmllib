@@ -16,6 +16,8 @@ class WordProcessingTest(unittest.TestCase):
     def setUp(self):
         test_file_path = os.path.join(TEST_FILES_IN, ALL_IN_FILES[0])
         self.doc = openxmllib.openXmlDocument(path=test_file_path)
+        test_template_file_path = os.path.join(TEST_FILES_IN, ALL_IN_TEMPLATE_FILES[0])
+        self.template = openxmllib.openXmlDocument(path=test_template_file_path)
         return
 
 
@@ -34,6 +36,15 @@ class WordProcessingTest(unittest.TestCase):
 
         itext = self.doc.indexableText(include_properties=False).split()
         some_words = (u'A', u'full', u'chàractèrs', u'non')
+        for word in some_words:
+            self.failUnless(word in itext, "%s was expected in %s" % (word, itext))
+        return
+
+
+    def test_templateFile(self):
+        """Template file (dotx)"""
+        itext = self.template.indexableText().split()
+        some_words = (u'A', u'full', u'chàractèrs', u'non', u'custom_value_2', u'title', u'metadata')
         for word in some_words:
             self.failUnless(word in itext, "%s was expected in %s" % (word, itext))
         return
