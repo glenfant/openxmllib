@@ -11,6 +11,12 @@ History
 
    See `<https://github.com/glenfant/openxmllib/issues>`_
 
+1.1.1
+=====
+
+ - Fix text extraction from Word template (.dotx) documents
+   [pdpotter]
+
 1.1
 ===
 
