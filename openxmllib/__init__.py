@@ -8,12 +8,16 @@ http://www.ecma-international.org/publications/standards/Ecma-376.htm
 
 import os
 from io import StringIO
-import urllib2
+
+try:
+    from urllib2 import urlopen  # py2
+except ImportError:
+    from urllib import urlopen  # py3
 import mimetypes
 
-import wordprocessing
-import spreadsheet
-import presentation
+from . import wordprocessing
+from . import spreadsheet
+from . import presentation
 
 version = None
 if version is None:
@@ -50,7 +54,7 @@ def openXmlDocument(path=None, file_=None, data=None, url=None, mime_type=None):
     elif file_ is not None:
         assert hasattr(file_, 'read')
     elif url is not None:
-        file_ = urllib2.urlopen(url)
+        file_ = urlopen(url)
         if mime_type is None:
             mime_type = file_.headers.gettype()
     elif data is not None:
