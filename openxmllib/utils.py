@@ -3,9 +3,10 @@
 # $Id: utils.py 6800 2007-12-04 11:17:01Z glenfant $
 
 import re
-from lxml import etree
 
-from namespaces import ns_map
+from lxml import etree
+from .namespaces import ns_map
+
 
 def xmlFile(path, mode='r'):
     """lxml cannot parse XML files starting with a BOM
@@ -17,25 +18,14 @@ def xmlFile(path, mode='r'):
     :param path: The path to the file
     :param mode: Mode for opéning the file
     """
-    fh = file(path, mode)
-    while fh.read(1) != '<': # Ignoring everything before '<?xml...'
+    fh = open(path, mode)
+    while fh.read(1) != '<':  # Ignoring everything before '<?xml...'
         pass
     fh.seek(-1, 1)
     return fh
 
 
-def toUnicode(objekt):
-    """Safely converts anything returned by lxml services to unicode
-    @param objekt: anything
-    @return: the object itself if not a string, otherwise the unicode of the string
-    """
-    if not isinstance(objekt, str):
-        return objekt
-    return unicode(objekt, 'utf-8')
-
-
 class IndexableTextExtractor(object):
-
     wordssearch_rx = re.compile(r'\w+', re.UNICODE)
     text_extract_xpath = etree.XPath('text()')
 
@@ -53,7 +43,6 @@ class IndexableTextExtractor(object):
             self.separator = ''
         return
 
-
     def indexableText(self, tree):
         """Provides the indexable - search engine oriented - raw text
         @param tree: an ElementTree
@@ -70,8 +59,7 @@ class IndexableTextExtractor(object):
                 if len(text) > 0:
                     texts.append(text[0])
             texts = self.separator.join(texts)
-            texts = [toUnicode(x) for x in self.wordssearch_rx.findall(texts)
+            texts = [x for x in self.wordssearch_rx.findall(texts)
                      if len(x) > 0]
             rval |= set(texts)
         return rval
-

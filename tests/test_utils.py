@@ -26,24 +26,10 @@ class UtilsTest(unittest.TestCase):
         self.failUnless(isinstance(xml.getroot(), etree._Element), "Expected an XML element")
         return
 
-    def test_tounicode(self):
-        """Unicodizing an object"""
-        toUnicode = openxmllib.utils.toUnicode
-
-        # Non text object
-        self.failUnlessEqual(toUnicode(AttributeError), AttributeError)
-
-        # ASCII stuff
-        self.failUnlessEqual(toUnicode('foo'), u'foo')
-
-        # Unicode stuff
-        self.failUnlessEqual(toUnicode(u'foo'), u'foo')
-        return
-
     def test_itextractor(self):
         """IndexableTextExtractor"""
         IndexableTextExtractor = openxmllib.utils.IndexableTextExtractor
-        from StringIO import StringIO
+        from io import StringIO
         from openxmllib.contenttypes import CT_WORDPROC_DOCUMENT
         from lxml import etree
 

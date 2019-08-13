@@ -4,20 +4,19 @@ The document modules handles an Open XML document
 """
 # $Id$
 
-import os
-import tempfile
-import zipfile
-import shutil
 import fnmatch
-import urllib
 import imghdr
+import os
+import shutil
+import tempfile
+import urllib
+import zipfile
 
 import lxml
 
-import contenttypes
-from namespaces import ns_map
-from utils import xmlFile
-from utils import toUnicode
+from . import contenttypes
+from .namespaces import ns_map
+from .utils import xmlFile
 
 
 class Document(object):
@@ -84,7 +83,6 @@ class Document(object):
         self.content_types = contenttypes.ContentTypes(xmlFile(ct_file, 'rb'))
         return
 
-
     @property
     def mimeType(self):
         """The official MIME type for this document, guessed from the extensions
@@ -101,7 +99,6 @@ class Document(object):
             if fnmatch.fnmatch(self.filename, pattern):
                 return mime_type
 
-
     @property
     def coreProperties(self):
         """Document core properties (author, ...) similar to DublinCore
@@ -110,7 +107,6 @@ class Document(object):
         """
         return self._tagValuedProperties(contenttypes.CT_CORE_PROPS)
 
-
     @property
     def extendedProperties(self):
         """Additional document automatic properties provided by the office app
@@ -118,7 +114,6 @@ class Document(object):
         :return: mapping of metadata like ``{'Pages': '14', ...}``
         """
         return self._tagValuedProperties(contenttypes.CT_EXT_PROPS)
-
 
     def _tagValuedProperties(self, content_type):
         """Document properties for property files having constructs like
@@ -133,10 +128,9 @@ class Document(object):
             return rval
         for tree in self.content_types.getTreesFor(self, content_type):
             for elt in tree.getroot().getchildren():
-                tag = elt.tag.split('}')[-1] # Removing namespace if any
-                rval[toUnicode(tag)] = toUnicode(elt.text)
+                tag = elt.tag.split('}')[-1]  # Removing namespace if any
+                rval[tag] = elt.text
         return rval
-
 
     @property
     def customProperties(self):
@@ -152,15 +146,14 @@ class Document(object):
         if len(self.content_types.getPathsForContentType(contenttypes.CT_CUSTOM_PROPS)) == 0:
             # We may have no custom properties at all.
             return rval
-        XPath = lxml.etree.XPath # Class shortcut
+        XPath = lxml.etree.XPath  # Class shortcut
         properties_xpath = XPath('custom-properties:property', namespaces=ns_map)
         propname_xpath = XPath('@name')
         propvalue_xpath = XPath('*/text()')
         for tree in self.content_types.getTreesFor(self, contenttypes.CT_CUSTOM_PROPS):
             for elt in properties_xpath(tree.getroot()):
-                rval[toUnicode(propname_xpath(elt)[0])] = u" ".join(propvalue_xpath(elt))
+                rval[propname_xpath(elt)[0]] = u" ".join(propvalue_xpath(elt))
         return rval
-
 
     @property
     def allProperties(self):
@@ -173,7 +166,6 @@ class Document(object):
         rval.update(self.extendedProperties)
         rval.update(self.customProperties)
         return rval
-
 
     def documentCover(self):
         """Cover page image
@@ -200,7 +192,6 @@ class Document(object):
             cover_type = cover_type.replace("jpeg", "jpg")
         return (cover_type, cover_fp)
 
-
     def indexableText(self, include_properties=True):
         """Words found in the various texts of the document.
 
@@ -220,7 +211,6 @@ class Document(object):
                     text.add(prop_value)
         return u' '.join([word for word in text])
 
-
     def __del__(self):
         """Cleanup at Document object deletion
         """
@@ -229,7 +219,6 @@ class Document(object):
         if hasattr(self, '_cache_file'):
             os.remove(self._cache_file)
         return
-
 
     @classmethod
     def canProcessMime(cls, mime_type):
@@ -240,7 +229,6 @@ class Document(object):
         """
         supported_mimes = cls._extpattern_to_mime.values()
         return mime_type in supported_mimes
-
 
     @classmethod
     def canProcessFilename(cls, filename):
@@ -254,4 +242,3 @@ class Document(object):
             if fnmatch.fnmatch(filename, pattern):
                 return True
         return False
-

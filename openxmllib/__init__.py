@@ -7,7 +7,7 @@ http://www.ecma-international.org/publications/standards/Ecma-376.htm
 """
 
 import os
-import cStringIO
+from io import StringIO
 import urllib2
 import mimetypes
 
@@ -23,6 +23,7 @@ _document_classes = (
     wordprocessing.WordprocessingDocument,
     spreadsheet.SpreadsheetDocument,
     presentation.PresentationDocument)
+
 
 def openXmlDocument(path=None, file_=None, data=None, url=None, mime_type=None):
     """**Factory function**
@@ -53,7 +54,7 @@ def openXmlDocument(path=None, file_=None, data=None, url=None, mime_type=None):
         if mime_type is None:
             mime_type = file_.headers.gettype()
     elif data is not None:
-        file_ = cStringIO.StringIO(data)
+        file_ = StringIO(data)
         assert mime_type is not None
     else:
         raise ValueError("Either path, file_, data, or url should be provided")
@@ -72,12 +73,9 @@ def openXmlDocument(path=None, file_=None, data=None, url=None, mime_type=None):
             if class_.canProcessFilename(file_.name):
                 return class_(file_, mime_type=mime_type)
         raise ValueError("Can't guess mime_type. You should set the mime_type param")
-    return
 
-###
-## Extending standard mimetypes
-###
 
+# Extending standard mimetypes
 for class_ in _document_classes:
     for pattern, mime_type in class_._extpattern_to_mime.items():
         mimetypes.add_type(mime_type, pattern[1:], True)

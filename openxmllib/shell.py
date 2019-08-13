@@ -32,8 +32,8 @@ class Application(object):
         def check_charset_option(option, opt_str, value, parser):
             """Value must be a valid charset"""
             try:
-                dummy = codecs.lookup(value)
-            except LookupError, e:
+                codecs.lookup(value)
+            except LookupError:
                 raise optparse.OptionValueError(
                     "Charset '%s' in unknown or not supported by your sytem."
                     % value)
@@ -47,13 +47,13 @@ class Application(object):
             '-c', '--charset', dest='charset', default=DEFAULT_CHARSET,
             type='string', action='callback', callback=check_charset_option,
             help="Converts output to this charset (default %s)" % DEFAULT_CHARSET
-            )
+        )
         parser.add_option(
             '-v', '--verbosity', dest='verbosity', default=0, action='count',
             help="Adds verbosity for each '-v'")
         self.options, self.args = parser.parse_args()
         if (len(self.args) < 2
-            or self.args[0] not in self.commands.keys()):
+                or self.args[0] not in self.commands.keys()):
             parser.error("Invalid arguments")
         self.filenames = self.args[1:]
         return
@@ -93,7 +93,7 @@ class Application(object):
         'metadata': metadataCmd,
         'words': wordsCmd,
         'cover': coverCmd
-        }
+    }
 
     def showMetadata(self, filename):
         if not self.checkfile(filename):
@@ -102,13 +102,13 @@ class Application(object):
         doc = openxmllib.openXmlDocument(path=filename)
         self.log(2, "Core properties:")
         for k, v in doc.coreProperties.items():
-            print "%s: %s" % (self.recode(k), self.recode(v))
+            print("%s: %s" % (self.recode(k), self.recode(v)))
         self.log(2, "Extended properties:")
         for k, v in doc.extendedProperties.items():
-            print "%s: %s" % (self.recode(k), self.recode(v))
+            print("%s: %s" % (self.recode(k), self.recode(v)))
         self.log(2, "Custom properties:")
         for k, v in doc.customProperties.items():
-            print "%s: %s" % (self.recode(k), self.recode(v))
+            print("%s: %s" % (self.recode(k), self.recode(v)))
         return
 
     def showWords(self, filename):
@@ -119,7 +119,8 @@ class Application(object):
         doc = openxmllib.openXmlDocument(path=filename)
         text = doc.indexableText(include_properties=False)
         duration = time.time() - start_time
-        print self.recode(text)
+        print()
+        self.recode(text)
         self.log(1, "Words extracted in %s second(s)", duration)
         return
 
@@ -135,13 +136,13 @@ class Application(object):
 
     def log(self, required_verbosity, message, *args):
         if self.options.verbosity >= required_verbosity:
-            print message % args
+            print(message % args)
         return
 
     def recode(self, utext):
-        if type(utext) is types.UnicodeType:
-            return utext.encode(self.options.charset, 'replace')
+        # does this need to do anything in python 3?
         return utext
+
 
 def openxmlinfo():
     Application().run()
