@@ -19,9 +19,10 @@ from . import wordprocessing
 from . import spreadsheet
 from . import presentation
 
-version = None
-if version is None:
-    version = open(os.path.join(os.path.dirname(__file__), 'version.txt')).read().strip()
+# TODO: is this used? version.txt is omitted on pip install
+# version = None
+# if version is None:
+#     version = open(os.path.join(os.path.dirname(__file__), 'version.txt')).read().strip()
 
 _document_classes = (
     wordprocessing.WordprocessingDocument,
