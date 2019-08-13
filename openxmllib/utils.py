@@ -19,7 +19,7 @@ def xmlFile(path, mode='r'):
     :param mode: Mode for opéning the file
     """
     fh = open(path, mode)
-    while fh.read(1) != '<':  # Ignoring everything before '<?xml...'
+    while fh.read(1) not in ('<', b'<'):  # Ignoring everything before '<?xml...'
         pass
     fh.seek(-1, 1)
     return fh

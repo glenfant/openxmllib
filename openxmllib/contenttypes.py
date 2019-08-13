@@ -72,7 +72,7 @@ class ContentTypes(object):
         context = etree.iterparse(content_types_file, tag='{%s}Override' % ns.CONTENT_TYPES)
         for dummy, override in context:
             key = override.get('ContentType')
-            if self.overrides.has_key(key):
+            if key in self.overrides:
                 self.overrides[key].append(override.get('PartName'))
             else:
                 self.overrides[key] = [override.get('PartName')]
