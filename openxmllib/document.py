@@ -11,6 +11,7 @@ import shutil
 import tempfile
 import urllib
 import zipfile
+from http.client import HTTPResponse
 
 import lxml
 
@@ -52,7 +53,8 @@ class Document(object):
             raise ValueError("Cannot guess mime type from such object, you should use the mime_type constructor arg.")
 
         # Need to make a real file for urllib.urlopen objects
-        if isinstance(file_, urllib.addinfourl):
+        # TODO: this was looking for the py2 urllib.addinforurl. Should this now look for http.client.HTTPResponse?
+        if isinstance(file_, HTTPResponse):
             fh, self._cache_file = tempfile.mkstemp()
             fh = os.fdopen(fh, 'wb')
             fh.write(file_.read())
@@ -70,7 +72,7 @@ class Document(object):
             abs_outdir = op_dirname(abs_outpath)
             if not op_isdir(abs_outdir):
                 os.makedirs(abs_outdir)
-            fh = file(abs_outpath, 'wb')
+            fh = open(abs_outpath, 'wb')
             fh.write(openxmldoc.read(outpath))
             fh.close()
         openxmldoc.close()

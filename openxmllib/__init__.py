@@ -43,7 +43,7 @@ def openXmlDocument(path=None, file_=None, data=None, url=None, mime_type=None):
     :param url: the URL of a document
     :param mime_type: mime type if known. One of the known MIME types from :mod:`openxmllib.contenttypes`.
 
-    Note that ``mime_tyype`` parameter **must** be provided if you provide the
+    Note that ``mime_type`` parameter **must** be provided if you provide the
     Open XML document through the ``data`` parameter. Otherwise, if you don't
     provide one, we'll try to guess which is the most appropriate using the file
     extension.
@@ -59,7 +59,8 @@ def openXmlDocument(path=None, file_=None, data=None, url=None, mime_type=None):
         if mime_type is None:
             mime_type = file_.headers.gettype()
     elif data is not None:
-        file_ = StringIO(data)
+        # file_ = StringIO(data) # needed anymore? data should be type bytes
+        file_ = data
         assert mime_type is not None
     else:
         raise ValueError("Either path, file_, data, or url should be provided")
