@@ -12,7 +12,7 @@ from io import StringIO
 try:
     from urllib2 import urlopen  # py2
 except ImportError:
-    from urllib import urlopen  # py3
+    from urllib.request import urlopen  # py3
 import mimetypes
 
 from . import wordprocessing
