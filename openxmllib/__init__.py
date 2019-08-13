@@ -7,7 +7,7 @@ http://www.ecma-international.org/publications/standards/Ecma-376.htm
 """
 
 import os
-from io import StringIO
+from io import BytesIO
 
 try:
     from urllib2 import urlopen  # py2
@@ -59,8 +59,7 @@ def openXmlDocument(path=None, file_=None, data=None, url=None, mime_type=None):
         if mime_type is None:
             mime_type = file_.headers.gettype()
     elif data is not None:
-        # file_ = StringIO(data) # needed anymore? data should be type bytes
-        file_ = data
+        file_ = BytesIO(data) # needed anymore? data should be type bytes
         assert mime_type is not None
     else:
         raise ValueError("Either path, file_, data, or url should be provided")
