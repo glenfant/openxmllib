@@ -28,7 +28,7 @@ class GettingFromUrl(unittest.TestCase):
         return
 
     def __del__(self):
-        #os.kill(self._server_process.pid, signal.SIGKILL)
+        os.kill(self._server_process.pid, signal.SIGKILL)
         return
 
     def setUp(self):
