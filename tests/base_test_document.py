@@ -7,7 +7,6 @@ Testing base_test_document
 import unittest
 
 import openxmllib
-from fixures import *
 
 
 class BaseTestDocument(unittest.TestCase):
@@ -21,11 +20,11 @@ class BaseTestDocument(unittest.TestCase):
 
         indexable_text = self.document.indexableText()
         for indexable_word in self.indexable_words_with_properties:
-            self.failUnless(indexable_word in indexable_text, "%s was expected" % indexable_word)
+            self.assertTrue(indexable_word in indexable_text, "%s was expected" % indexable_word)
 
     def test_indexableTextNoprop(self):
         """Base indexable text without properties"""
 
         indexable_text = self.document.indexableText(include_properties=False)
         for indexable_word in self.indexable_words_without_properties:
-            self.failUnless(indexable_word in indexable_text, "%s was expected" % indexable_word)
+            self.assertTrue(indexable_word in indexable_text, "%s was expected" % indexable_word)

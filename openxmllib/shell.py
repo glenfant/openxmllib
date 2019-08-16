@@ -101,14 +101,14 @@ class Application(object):
         self.log(1, "Processing %s...", filename)
         doc = openxmllib.openXmlDocument(path=filename)
         self.log(2, "Core properties:")
-        for k, v in doc.coreProperties.items():
-            print("%s: %s" % (self.recode(k), self.recode(v)))
+        for k, v in list(doc.coreProperties.items()):
+            print(("%s: %s" % (self.recode(k), self.recode(v))))
         self.log(2, "Extended properties:")
-        for k, v in doc.extendedProperties.items():
-            print("%s: %s" % (self.recode(k), self.recode(v)))
+        for k, v in list(doc.extendedProperties.items()):
+            print(("%s: %s" % (self.recode(k), self.recode(v))))
         self.log(2, "Custom properties:")
-        for k, v in doc.customProperties.items():
-            print("%s: %s" % (self.recode(k), self.recode(v)))
+        for k, v in list(doc.customProperties.items()):
+            print(("%s: %s" % (self.recode(k), self.recode(v))))
         return
 
     def showWords(self, filename):
@@ -136,7 +136,7 @@ class Application(object):
 
     def log(self, required_verbosity, message, *args):
         if self.options.verbosity >= required_verbosity:
-            print(message % args)
+            print((message % args))
         return
 
     def recode(self, utext):

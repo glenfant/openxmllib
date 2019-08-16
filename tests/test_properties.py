@@ -28,8 +28,8 @@ class PropertiesTest(unittest.TestCase):
             'language': 'fr-FR',
             'title': 'The title of the document'
             }
-        for k, v in expected.items():
-            self.failUnlessEqual(props[k], v)
+        for k, v in list(expected.items()):
+            self.assertEqual(props[k], v)
         return
 
     def test_extprops(self):
@@ -42,8 +42,8 @@ class PropertiesTest(unittest.TestCase):
             'Pages': '1',
             'Words': '18',
             'Paragraphs': '1'}
-        for k, v in expected.items():
-            self.failUnlessEqual(props[k], v)
+        for k, v in list(expected.items()):
+            self.assertEqual(props[k], v)
         return
 
     def test_customprops(self):
@@ -56,8 +56,8 @@ class PropertiesTest(unittest.TestCase):
             'custom_title_3': 'custom_value_3',
             'custom_title_4': 'custom_value_4',
             }
-        for k, v in expected.items():
-            self.failUnlessEqual(props[k], v)
+        for k, v in list(expected.items()):
+            self.assertEqual(props[k], v)
         return
 # /class PropertiesTest
 

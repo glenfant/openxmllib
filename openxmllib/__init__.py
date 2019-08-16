@@ -6,18 +6,13 @@ Open XML document is defined by the ECMA-376 standard
 http://www.ecma-international.org/publications/standards/Ecma-376.htm
 """
 
-import os
-from io import BytesIO
-
-try:
-    from urllib2 import urlopen  # py2
-except ImportError:
-    from urllib.request import urlopen  # py3
 import mimetypes
+from io import BytesIO
+from urllib.request import urlopen
 
-from . import wordprocessing
-from . import spreadsheet
 from . import presentation
+from . import spreadsheet
+from . import wordprocessing
 
 # TODO: is this used? version.txt is omitted on pip install
 # version = None
@@ -82,5 +77,5 @@ def openXmlDocument(path=None, file_=None, data=None, url=None, mime_type=None):
 
 # Extending standard mimetypes
 for class_ in _document_classes:
-    for pattern, mime_type in class_._extpattern_to_mime.items():
+    for pattern, mime_type in list(class_._extpattern_to_mime.items()):
         mimetypes.add_type(mime_type, pattern[1:], True)

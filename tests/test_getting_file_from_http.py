@@ -28,7 +28,7 @@ class GettingFromUrl(unittest.TestCase):
         return
 
     def __del__(self):
-        os.kill(self._server_process.pid, signal.SIGKILL)
+        #os.kill(self._server_process.pid, signal.SIGKILL)
         return
 
     def setUp(self):
@@ -39,15 +39,15 @@ class GettingFromUrl(unittest.TestCase):
     def test_indexableText(self):
         """Indexable text with properties"""
         itext = self.doc.indexableText()
-        for word in (u'A', u'full', u'chàractèrs', u'non',
-                     u'custom_value_2', u'title'):
-            self.failUnless(word in itext, "%s was expected" % word)
+        for word in ('A', 'full', 'chàractèrs', 'non',
+                     'custom_value_2', 'title'):
+            self.assertTrue(word in itext, "%s was expected" % word)
 
     def test_indexableTextNoprop(self):
         """Indexable text without properties"""
         itext = self.doc.indexableText(include_properties=False)
-        for word in (u'A', u'full', u'chàractèrs', u'non'):
-            self.failUnless(word in itext, "%s was expected" % word)
+        for word in ('A', 'full', 'chàractèrs', 'non'):
+            self.assertTrue(word in itext, "%s was expected" % word)
 
 
 def test_suite():

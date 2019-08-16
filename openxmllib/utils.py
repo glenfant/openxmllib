@@ -16,7 +16,7 @@ def xmlFile(path, mode='r'):
     TODO: File this issue to lxml ML or tracker (feature or bug ?)
 
     :param path: The path to the file
-    :param mode: Mode for opéning the file
+    :param mode: Mode for opening the file
     """
     fh = open(path, mode)
     while fh.read(1) not in ('<', b'<'):  # Ignoring everything before '<?xml...'

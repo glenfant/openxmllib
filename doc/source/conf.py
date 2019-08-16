@@ -58,8 +58,8 @@ source_suffix = '.txt'
 master_doc = 'index'
 
 # General information about the project.
-project = u'openxmllib'
-copyright = u'2008-%d, Gilles Lenfant' % time.localtime().tm_year
+project = 'openxmllib'
+copyright = '2008-%d, Gilles Lenfant' % time.localtime().tm_year
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -196,8 +196,8 @@ htmlhelp_basename = 'openxmllibdoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-    ('index', 'openxmllib.tex', u'openxmllib Documentation',
-     u'Gilles Lenfant', 'manual'),
+    ('index', 'openxmllib.tex', 'openxmllib Documentation',
+     'Gilles Lenfant', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -229,6 +229,6 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'openxmllib', u'openxmllib Documentation',
-     [u'Gilles Lenfant'], 1)
+    ('index', 'openxmllib', 'openxmllib Documentation',
+     ['Gilles Lenfant'], 1)
 ]

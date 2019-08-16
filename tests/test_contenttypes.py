@@ -4,14 +4,11 @@ Testing ContentTypes object and services
 """
 # $Id: test_contenttypes.py 6796 2007-12-04 10:52:51Z glenfant $
 
+import io
 import unittest
-import StringIO
 
-from fixures import *
-
-import openxmllib.namespaces as ns
 import openxmllib.contenttypes as ct
-
+import openxmllib.namespaces as ns
 
 CONTENTTYPES_XML = """<?xml version="1.0" encoding="utf-8"?>
 <Types xmlns="%(content-types)s">
@@ -57,21 +54,22 @@ CONTENTTYPES_XML = """<?xml version="1.0" encoding="utf-8"?>
 class ContentTypesTest(unittest.TestCase):
     """Testing the ContentTypes object"""
 
-
     def setUp(self):
-        self.content_types = ct.ContentTypes(StringIO.StringIO(CONTENTTYPES_XML))
+        self.content_types = ct.ContentTypes(io.BytesIO(CONTENTTYPES_XML.encode('utf-8')))
         return
 
     def test_overrides(self):
         """Checking some overrides"""
 
-        self.failUnlessEqual(self.content_types.getPathsForContentType(ct.CT_CORE_PROPS),
-                             ['/docProps/core.xml'])
-        self.failUnlessEqual(self.content_types.getPathsForContentType(ct.CT_EXT_PROPS),
-                             ['/docProps/app.xml'])
-        self.failUnlessEqual(self.content_types.getPathsForContentType(ct.CT_CUSTOM_PROPS),
-                             ['/docProps/custom.xml'])
+        self.assertEqual(self.content_types.getPathsForContentType(ct.CT_CORE_PROPS),
+                         ['/docProps/core.xml'])
+        self.assertEqual(self.content_types.getPathsForContentType(ct.CT_EXT_PROPS),
+                         ['/docProps/app.xml'])
+        self.assertEqual(self.content_types.getPathsForContentType(ct.CT_CUSTOM_PROPS),
+                         ['/docProps/custom.xml'])
         return
+
+
 # /class ContentTypesTest
 
 
@@ -79,6 +77,7 @@ def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(ContentTypesTest))
     return suite
+
 
 if __name__ == '__main__':
     unittest.TextTestRunner().run(test_suite())

@@ -9,7 +9,6 @@ import imghdr
 import os
 import shutil
 import tempfile
-import urllib
 import zipfile
 from http.client import HTTPResponse
 
@@ -97,7 +96,7 @@ class Document(object):
         if self.mime_type:
             # Supposed validated by the factory
             return self.mime_type
-        for pattern, mime_type in self._extpattern_to_mime.items():
+        for pattern, mime_type in list(self._extpattern_to_mime.items()):
             if fnmatch.fnmatch(self.filename, pattern):
                 return mime_type
 
@@ -154,7 +153,7 @@ class Document(object):
         propvalue_xpath = XPath('*/text()')
         for tree in self.content_types.getTreesFor(self, contenttypes.CT_CUSTOM_PROPS):
             for elt in properties_xpath(tree.getroot()):
-                rval[propname_xpath(elt)[0]] = u" ".join(propvalue_xpath(elt))
+                rval[propname_xpath(elt)[0]] = " ".join(propvalue_xpath(elt))
         return rval
 
     @property
@@ -208,10 +207,10 @@ class Document(object):
                     text |= words
 
         if include_properties:
-            for prop_value in self.allProperties.values():
+            for prop_value in list(self.allProperties.values()):
                 if prop_value is not None:
                     text.add(prop_value)
-        return u' '.join([word for word in text])
+        return ' '.join([word for word in text])
 
     def __del__(self):
         """Cleanup at Document object deletion
@@ -229,7 +228,7 @@ class Document(object):
         :param mime_type: Mime type as 'application/xxx'
         :return: True if we can process such mime
         """
-        supported_mimes = cls._extpattern_to_mime.values()
+        supported_mimes = list(cls._extpattern_to_mime.values())
         return mime_type in supported_mimes
 
     @classmethod
@@ -239,7 +238,7 @@ class Document(object):
         :param filename: File name as 'mydoc.docx'
         :return: True if we can process such file
         """
-        supported_patterns = cls._extpattern_to_mime.keys()
+        supported_patterns = list(cls._extpattern_to_mime.keys())
         for pattern in supported_patterns:
             if fnmatch.fnmatch(filename, pattern):
                 return True
