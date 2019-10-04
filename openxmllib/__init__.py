@@ -54,10 +54,7 @@ def openXmlDocument(path=None, file_=None, data=None, url=None, mime_type=None):
         if mime_type is None:
             mime_type = file_.headers.gettype()
     elif data is not None:
-        try:
-            file_ = BytesIO(data)
-        except TypeError:
-            file_ = StringIO(data)
+        file_ = BytesIO(data)
         assert mime_type is not None
     else:
         raise ValueError("Either path, file_, data, or url should be provided")

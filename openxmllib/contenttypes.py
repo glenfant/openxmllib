@@ -99,7 +99,8 @@ class ContentTypes(object):
             if rel_path[0] in ('/', '\\'):
                 rel_path = rel_path[1:]
             file_path = os.path.join(document._cache_dir, rel_path)
-            yield etree.parse(utils.xmlFile(file_path, 'rb'))
+            with utils.xmlFile(file_path, 'rb') as file_:
+                yield etree.parse(file_)
         return
 
     @property
