@@ -81,7 +81,8 @@ class Document(object):
         ct_file = op_join(self._cache_dir, '[Content_Types].xml')
 
         #: A :class:`openxmllib.contenttypes.ContentTypes` object for this document
-        self.content_types = contenttypes.ContentTypes(xmlFile(ct_file, 'rb'))
+        with xmlFile(ct_file, 'rb') as file_:
+            self.content_types = contenttypes.ContentTypes(file_)
         return
 
     @property
