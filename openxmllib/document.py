@@ -130,7 +130,9 @@ class Document(object):
             return rval
         for tree in self.content_types.getTreesFor(self, content_type):
             for elt in tree.getroot().getchildren():
-                tag = elt.tag.split('}')[-1]  # Removing namespace if any
+                tag = elt.tag
+                if hasattr(tag, 'split'):
+                    tag = tag.split('}')[-1]  # Removing namespace if any
                 rval[tag] = elt.text
         return rval
 
