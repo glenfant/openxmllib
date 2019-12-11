@@ -3,8 +3,10 @@
 from setuptools import setup, find_packages
 import os
 
+
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read().strip()
+
 
 name = 'openxmllib'
 
@@ -34,10 +36,10 @@ setup(
     include_package_data=True,
     exclude_package_data={
         '': ['tests']
-        },
+    },
     install_requires=['lxml>=3.4.0'],
     zip_safe=False,
     entry_points={
         'console_scripts': ['openxmlinfo = openxmllib.shell:openxmlinfo']
     },
-    )
+)

@@ -4,11 +4,12 @@ Testing cover image extraction
 """
 # $Id$
 
-import unittest
 import os
-from fixures import *
+import unittest
 
 import openxmllib
+from fixures import *
+
 
 class CoverExtractionTest(unittest.TestCase):
     """Testing extracting cover image from a document"""
@@ -26,14 +27,15 @@ class CoverExtractionTest(unittest.TestCase):
 
         for doc in self.coverdocs:
             suffix, fp = doc.documentCover()
-            self.failUnless(suffix=="jpg")
-            self.failUnless(fp.name.endswith("thumbnail.jpeg"))
+            self.assertTrue(suffix == "jpg")
+            self.assertTrue(fp.name.endswith("thumbnail.jpeg"))
 
     def test_coverNotPresent(self):
         """There is no cover image embedded in document"""
 
         for doc in self.docs:
-            self.failUnless(doc.documentCover() == None)
+            self.assertTrue(doc.documentCover() == None)
+
 
 # /class CoverExtractionTest
 
@@ -42,6 +44,7 @@ def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(CoverExtractionTest))
     return suite
+
 
 if __name__ == '__main__':
     unittest.TextTestRunner().run(test_suite())

@@ -5,9 +5,11 @@ The various inner content types in an open XML document
 # $Id: contenttypes.py 6800 2007-12-04 11:17:01Z glenfant $
 
 import os
+
 from lxml import etree
-import namespaces as ns
-import utils
+
+from . import namespaces as ns
+from . import utils
 
 # Common properties
 CT_CORE_PROPS = 'application/vnd.openxmlformats-package.core-properties+xml'
@@ -66,16 +68,15 @@ class ContentTypes(object):
         @param content_types_file: a file like object of [Content_Types].xml
         """
 
-        self.overrides = {} # {subpart content type: [xml file, ...], ...}
+        self.overrides = {}  # {subpart content type: [xml file, ...], ...}
         context = etree.iterparse(content_types_file, tag='{%s}Override' % ns.CONTENT_TYPES)
         for dummy, override in context:
             key = override.get('ContentType')
-            if self.overrides.has_key(key):
+            if key in self.overrides:
                 self.overrides[key].append(override.get('PartName'))
             else:
                 self.overrides[key] = [override.get('PartName')]
         return
-
 
     def getPathsForContentType(self, content_type):
         """Finds the path in the document to that content type
@@ -84,7 +85,6 @@ class ContentTypes(object):
         """
 
         return self.overrides.get(content_type, [])
-
 
     def getTreesFor(self, document, content_type):
         """Provides all XML documents for that content type
@@ -99,9 +99,9 @@ class ContentTypes(object):
             if rel_path[0] in ('/', '\\'):
                 rel_path = rel_path[1:]
             file_path = os.path.join(document._cache_dir, rel_path)
-            yield etree.parse(utils.xmlFile(file_path, 'rb'))
+            with utils.xmlFile(file_path, 'rb') as file_:
+                yield etree.parse(file_)
         return
-
 
     @property
     def listMetaContentTypes(self):
@@ -114,4 +114,3 @@ class ContentTypes(object):
             CT_EXT_PROPS,
             CT_CUSTOM_PROPS)
         return [k for k in self.overrides.keys() if k in all_md_content_types]
-

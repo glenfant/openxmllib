@@ -4,20 +4,19 @@ The document modules handles an Open XML document
 """
 # $Id$
 
+import fnmatch
+import imghdr
 import os
+import shutil
 import tempfile
 import zipfile
-import shutil
-import fnmatch
-import urllib
-import imghdr
+from http.client import HTTPResponse
 
 import lxml
 
-import contenttypes
-from namespaces import ns_map
-from utils import xmlFile
-from utils import toUnicode
+from . import contenttypes
+from .namespaces import ns_map
+from .utils import xmlFile
 
 
 class Document(object):
@@ -53,7 +52,8 @@ class Document(object):
             raise ValueError("Cannot guess mime type from such object, you should use the mime_type constructor arg.")
 
         # Need to make a real file for urllib.urlopen objects
-        if isinstance(file_, urllib.addinfourl):
+        # TODO: this was looking for the py2 urllib.addinforurl. Should this now look for http.client.HTTPResponse?
+        if isinstance(file_, HTTPResponse):
             fh, self._cache_file = tempfile.mkstemp()
             fh = os.fdopen(fh, 'wb')
             fh.write(file_.read())
@@ -71,7 +71,7 @@ class Document(object):
             abs_outdir = op_dirname(abs_outpath)
             if not op_isdir(abs_outdir):
                 os.makedirs(abs_outdir)
-            fh = file(abs_outpath, 'wb')
+            fh = open(abs_outpath, 'wb')
             fh.write(openxmldoc.read(outpath))
             fh.close()
         openxmldoc.close()
@@ -81,9 +81,9 @@ class Document(object):
         ct_file = op_join(self._cache_dir, '[Content_Types].xml')
 
         #: A :class:`openxmllib.contenttypes.ContentTypes` object for this document
-        self.content_types = contenttypes.ContentTypes(xmlFile(ct_file, 'rb'))
+        with xmlFile(ct_file, 'rb') as file_:
+            self.content_types = contenttypes.ContentTypes(file_)
         return
-
 
     @property
     def mimeType(self):
@@ -97,10 +97,9 @@ class Document(object):
         if self.mime_type:
             # Supposed validated by the factory
             return self.mime_type
-        for pattern, mime_type in self._extpattern_to_mime.items():
+        for pattern, mime_type in list(self._extpattern_to_mime.items()):
             if fnmatch.fnmatch(self.filename, pattern):
                 return mime_type
-
 
     @property
     def coreProperties(self):
@@ -110,7 +109,6 @@ class Document(object):
         """
         return self._tagValuedProperties(contenttypes.CT_CORE_PROPS)
 
-
     @property
     def extendedProperties(self):
         """Additional document automatic properties provided by the office app
@@ -118,7 +116,6 @@ class Document(object):
         :return: mapping of metadata like ``{'Pages': '14', ...}``
         """
         return self._tagValuedProperties(contenttypes.CT_EXT_PROPS)
-
 
     def _tagValuedProperties(self, content_type):
         """Document properties for property files having constructs like
@@ -133,10 +130,11 @@ class Document(object):
             return rval
         for tree in self.content_types.getTreesFor(self, content_type):
             for elt in tree.getroot().getchildren():
-                tag = elt.tag.split('}')[-1] # Removing namespace if any
-                rval[toUnicode(tag)] = toUnicode(elt.text)
+                tag = elt.tag
+                if hasattr(tag, 'split'):
+                    tag = tag.split('}')[-1]  # Removing namespace if any
+                rval[tag] = elt.text
         return rval
-
 
     @property
     def customProperties(self):
@@ -152,15 +150,14 @@ class Document(object):
         if len(self.content_types.getPathsForContentType(contenttypes.CT_CUSTOM_PROPS)) == 0:
             # We may have no custom properties at all.
             return rval
-        XPath = lxml.etree.XPath # Class shortcut
+        XPath = lxml.etree.XPath  # Class shortcut
         properties_xpath = XPath('custom-properties:property', namespaces=ns_map)
         propname_xpath = XPath('@name')
         propvalue_xpath = XPath('*/text()')
         for tree in self.content_types.getTreesFor(self, contenttypes.CT_CUSTOM_PROPS):
             for elt in properties_xpath(tree.getroot()):
-                rval[toUnicode(propname_xpath(elt)[0])] = u" ".join(propvalue_xpath(elt))
+                rval[propname_xpath(elt)[0]] = " ".join(propvalue_xpath(elt))
         return rval
-
 
     @property
     def allProperties(self):
@@ -173,7 +170,6 @@ class Document(object):
         rval.update(self.extendedProperties)
         rval.update(self.customProperties)
         return rval
-
 
     def documentCover(self):
         """Cover page image
@@ -200,7 +196,6 @@ class Document(object):
             cover_type = cover_type.replace("jpeg", "jpg")
         return (cover_type, cover_fp)
 
-
     def indexableText(self, include_properties=True):
         """Words found in the various texts of the document.
 
@@ -215,11 +210,10 @@ class Document(object):
                     text |= words
 
         if include_properties:
-            for prop_value in self.allProperties.values():
+            for prop_value in list(self.allProperties.values()):
                 if prop_value is not None:
                     text.add(prop_value)
-        return u' '.join([word for word in text])
-
+        return ' '.join([word for word in text])
 
     def __del__(self):
         """Cleanup at Document object deletion
@@ -230,7 +224,6 @@ class Document(object):
             os.remove(self._cache_file)
         return
 
-
     @classmethod
     def canProcessMime(cls, mime_type):
         """Check if we can process such mime type
@@ -238,9 +231,8 @@ class Document(object):
         :param mime_type: Mime type as 'application/xxx'
         :return: True if we can process such mime
         """
-        supported_mimes = cls._extpattern_to_mime.values()
+        supported_mimes = list(cls._extpattern_to_mime.values())
         return mime_type in supported_mimes
-
 
     @classmethod
     def canProcessFilename(cls, filename):
@@ -249,9 +241,8 @@ class Document(object):
         :param filename: File name as 'mydoc.docx'
         :return: True if we can process such file
         """
-        supported_patterns = cls._extpattern_to_mime.keys()
+        supported_patterns = list(cls._extpattern_to_mime.keys())
         for pattern in supported_patterns:
             if fnmatch.fnmatch(filename, pattern):
                 return True
         return False
-

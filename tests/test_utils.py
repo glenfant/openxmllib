@@ -4,15 +4,15 @@ Testing the utils module resources
 """
 # $Id: test_utils.py 6796 2007-12-04 10:52:51Z glenfant $
 
-import unittest
 import os
-from fixures import *
+import unittest
 
 import openxmllib
+from fixures import *
+
 
 class UtilsTest(unittest.TestCase):
     """Testing resources from the utilsmodule"""
-
 
     def test_xmlfile(self):
         """Working around absence of BOM support in lxml"""
@@ -23,37 +23,24 @@ class UtilsTest(unittest.TestCase):
         toc_path = os.path.join(doc._cache_dir, '[Content_Types].xml')
         fh = openxmllib.utils.xmlFile(toc_path, 'rb')
         xml = etree.parse(fh)
-        self.failUnless(isinstance(xml.getroot(), etree._Element), "Expected an XML element")
-        return
-
-    def test_tounicode(self):
-        """Unicodizing an object"""
-        toUnicode = openxmllib.utils.toUnicode
-
-        # Non text object
-        self.failUnlessEqual(toUnicode(AttributeError), AttributeError)
-
-        # ASCII stuff
-        self.failUnlessEqual(toUnicode('foo'), u'foo')
-
-        # Unicode stuff
-        self.failUnlessEqual(toUnicode(u'foo'), u'foo')
+        self.assertTrue(isinstance(xml.getroot(), etree._Element), "Expected an XML element")
         return
 
     def test_itextractor(self):
         """IndexableTextExtractor"""
         IndexableTextExtractor = openxmllib.utils.IndexableTextExtractor
-        from StringIO import StringIO
+        from io import BytesIO
         from openxmllib.contenttypes import CT_WORDPROC_DOCUMENT
         from lxml import etree
 
         ite = IndexableTextExtractor(CT_WORDPROC_DOCUMENT, 'wordprocessing-main:t')
-        indexables = ite.indexableText(etree.parse(StringIO(WP_MAIN_XML)))
-        some_words = (u'A', u'full', u'chàractèrs', u'non')
+        indexables = ite.indexableText(etree.parse(BytesIO(WP_MAIN_XML.encode('utf-8'))))
+        some_words = ('A', 'full', 'chàractèrs', 'non')
         for word in some_words:
-            self.failUnless(word in indexables,
+            self.assertTrue(word in indexables,
                             "%s expected from %s" % (word, indexables))
         return
+
 
 # /class UtilsTest
 
@@ -62,6 +49,7 @@ def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(UtilsTest))
     return suite
+
 
 if __name__ == '__main__':
     unittest.TextTestRunner().run(test_suite())

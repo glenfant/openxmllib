@@ -6,23 +6,24 @@ Open XML document is defined by the ECMA-376 standard
 http://www.ecma-international.org/publications/standards/Ecma-376.htm
 """
 
-import os
-import cStringIO
-import urllib2
 import mimetypes
+from io import BytesIO, StringIO
+from six.moves.urllib.request import urlopen
 
-import wordprocessing
-import spreadsheet
-import presentation
+from . import presentation
+from . import spreadsheet
+from . import wordprocessing
 
-version = None
-if version is None:
-    version = open(os.path.join(os.path.dirname(__file__), 'version.txt')).read().strip()
+# TODO: is this used? version.txt is omitted on pip install
+# version = None
+# if version is None:
+#     version = open(os.path.join(os.path.dirname(__file__), 'version.txt')).read().strip()
 
 _document_classes = (
     wordprocessing.WordprocessingDocument,
     spreadsheet.SpreadsheetDocument,
     presentation.PresentationDocument)
+
 
 def openXmlDocument(path=None, file_=None, data=None, url=None, mime_type=None):
     """**Factory function**
@@ -37,7 +38,7 @@ def openXmlDocument(path=None, file_=None, data=None, url=None, mime_type=None):
     :param url: the URL of a document
     :param mime_type: mime type if known. One of the known MIME types from :mod:`openxmllib.contenttypes`.
 
-    Note that ``mime_tyype`` parameter **must** be provided if you provide the
+    Note that ``mime_type`` parameter **must** be provided if you provide the
     Open XML document through the ``data`` parameter. Otherwise, if you don't
     provide one, we'll try to guess which is the most appropriate using the file
     extension.
@@ -49,11 +50,11 @@ def openXmlDocument(path=None, file_=None, data=None, url=None, mime_type=None):
     elif file_ is not None:
         assert hasattr(file_, 'read')
     elif url is not None:
-        file_ = urllib2.urlopen(url)
+        file_ = urlopen(url)
         if mime_type is None:
             mime_type = file_.headers.gettype()
     elif data is not None:
-        file_ = cStringIO.StringIO(data)
+        file_ = BytesIO(data)
         assert mime_type is not None
     else:
         raise ValueError("Either path, file_, data, or url should be provided")
@@ -72,12 +73,9 @@ def openXmlDocument(path=None, file_=None, data=None, url=None, mime_type=None):
             if class_.canProcessFilename(file_.name):
                 return class_(file_, mime_type=mime_type)
         raise ValueError("Can't guess mime_type. You should set the mime_type param")
-    return
 
-###
-## Extending standard mimetypes
-###
 
+# Extending standard mimetypes
 for class_ in _document_classes:
-    for pattern, mime_type in class_._extpattern_to_mime.items():
+    for pattern, mime_type in list(class_._extpattern_to_mime.items()):
         mimetypes.add_type(mime_type, pattern[1:], True)

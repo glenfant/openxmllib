@@ -4,11 +4,13 @@ Testing PresentationDocument
 """
 # $Id$
 
-import unittest
 import os
-from fixures import *
+import unittest
 
 import openxmllib
+
+from fixures import *
+
 
 class PresentationTest(unittest.TestCase):
     """Testing querying properties from a document"""
@@ -20,39 +22,37 @@ class PresentationTest(unittest.TestCase):
         self.template = openxmllib.openXmlDocument(path=test_template_file_path)
         return
 
-
     def test_indexableText(self):
         """Indexable text with properties"""
 
         itext = self.doc.indexableText().split()
-        some_words = (u'Chapter', u'presentation', u'proud', u'three', u'two',
-             u'four', u'item', u'one', u'My')
-        some_words += (u'false',)
+        some_words = ('Chapter', 'presentation', 'proud', 'three', 'two', 'four', 'item', 'one', 'My')
+        some_words += ('false',)
         for word in some_words:
-            self.failUnless(word in itext, "%s was expected in %s" % (word, itext))
+            self.assertTrue(word in itext, "%s was expected in %s" % (word, itext))
         return
-
 
     def test_indexableTextNoprop(self):
         """Indexable text without properties"""
 
         itext = self.doc.indexableText(include_properties=False).split()
-        some_words = (u'Chapter', u'presentation', u'proud', u'three', u'two',
-             u'four', u'item', u'one', u'My')
+        some_words = ('Chapter', 'presentation', 'proud', 'three', 'two',
+                      'four', 'item', 'one', 'My')
         for word in some_words:
-            self.failUnless(word in itext, "%s was expected in %s" % (word, itext))
+            self.assertTrue(word in itext, "%s was expected in %s" % (word, itext))
         return
-
 
     def test_templateFile(self):
         """Template file (potx)"""
         itext = self.template.indexableText().split()
-        some_words = (u'Chapter', u'presentation', u'proud', u'three', u'two',
-             u'four', u'item', u'one', u'My')
-        some_words += (u'false',)
+        some_words = ('Chapter', 'presentation', 'proud', 'three', 'two',
+                      'four', 'item', 'one', 'My')
+        some_words += ('false',)
         for word in some_words:
-            self.failUnless(word in itext, "%s was expected in %s" % (word, itext))
+            self.assertTrue(word in itext, "%s was expected in %s" % (word, itext))
         return
+
+
 # /class WordProcessingTest
 
 
@@ -60,6 +60,7 @@ def test_suite():
     suite = unittest.TestSuite()
     suite.addTest(unittest.makeSuite(PresentationTest))
     return suite
+
 
 if __name__ == '__main__':
     unittest.TextTestRunner().run(test_suite())

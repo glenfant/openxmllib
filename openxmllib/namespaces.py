@@ -35,4 +35,4 @@ ns_map = {
     'wordprocessing-main': WP_MAIN,
     'spreadsheet-main': SS_MAIN,
     'presentation-main': PR_MAIN
-    }
+}
